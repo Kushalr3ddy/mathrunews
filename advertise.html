@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advertise — MSM TV NEWS</title>
+  <meta name="description" content="Advertise with MSM TV NEWS. Our platform, your brand — wide reach, maximum impact.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b1c3f'/%3E%3Ctext x='16' y='24' font-family='Georgia' font-size='22' font-weight='700' text-anchor='middle' fill='%23d4af37'%3EM%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&family=Anek+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="advertise">
+  <header id="site-header"></header>
+  <div class="ticker" id="ticker"></div>
+  <main class="wrap">
+    <section class="page-hero">
+      <h1 id="ad-title"></h1>
+      <p id="ad-sub"></p>
+    </section>
+    <div class="adv-reasons" id="ad-reasons"></div>
+    <div class="two-col" style="margin-top:30px">
+      <div class="prose" id="ad-copy"></div>
+      <div class="contact-card">
+        <form class="msm-form" id="ad-form"></form>
+      </div>
+    </div>
+  </main>
+  <footer id="site-footer"></footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/forms.js"></script>
+  <script>
+    initChrome("advertise");
+    var b = MSM.brand, lang = currentLang();
+    document.getElementById("ad-title").textContent = t("advertise_title");
+    document.getElementById("ad-sub").textContent = t("advertise_sub");
+    var reasons = ["r_reach","r_impact","r_trust","r_team","r_cover","r_fast"];
+    document.getElementById("ad-reasons").innerHTML =
+      reasons.map(function(r){ return '<div class="vcard"><b>'+t(r)+'</b></div>'; }).join("");
+
+    var copyEn = "<h2>Your brand, our platform</h2><p>Reach audiences across television and digital with MSM TV NEWS. From primetime slots and news-break sponsorships to scrolling tickers, L-bands and branded segments, we build campaigns that fit your goals.</p><p>Tell us about your brand using the form and our team will get back with formats, reach and rate options.</p>";
+    var copyKn = "<h2>ನಿಮ್ಮ ಬ್ರ್ಯಾಂಡ್, ನಮ್ಮ ವೇದಿಕೆ</h2><p>ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್‌ನೊಂದಿಗೆ ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ ಪ್ರೇಕ್ಷಕರನ್ನು ತಲುಪಿ. ಪ್ರೈಮ್‌ಟೈಮ್ ಸ್ಲಾಟ್, ನ್ಯೂಸ್-ಬ್ರೇಕ್ ಪ್ರಾಯೋಜಕತ್ವ, ಸ್ಕ್ರೋಲಿಂಗ್ ಟಿಕರ್, ಎಲ್-ಬ್ಯಾಂಡ್ ಮತ್ತು ಬ್ರ್ಯಾಂಡೆಡ್ ವಿಭಾಗಗಳವರೆಗೆ ನಿಮ್ಮ ಗುರಿಗೆ ತಕ್ಕ ಪ್ರಚಾರ ರೂಪಿಸುತ್ತೇವೆ.</p><p>ಫಾರ್ಮ್ ಮೂಲಕ ನಿಮ್ಮ ಬ್ರ್ಯಾಂಡ್ ಬಗ್ಗೆ ತಿಳಿಸಿ; ನಮ್ಮ ತಂಡ ಫಾರ್ಮ್ಯಾಟ್, ವ್ಯಾಪ್ತಿ ಮತ್ತು ದರಗಳೊಂದಿಗೆ ಸಂಪರ್ಕಿಸುತ್ತದೆ.</p>";
+    document.getElementById("ad-copy").innerHTML = lang==="kn"?copyKn:copyEn;
+    buildForm("ad-form", t("advertise_title"));
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — MSM TV NEWS</title>
+  <meta name="description" content="About MSM TV NEWS by Matru Smruthi Media Pvt Ltd, a Karnataka-based global news channel.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b1c3f'/%3E%3Ctext x='16' y='24' font-family='Georgia' font-size='22' font-weight='700' text-anchor='middle' fill='%23d4af37'%3EM%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&family=Anek+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="about">
+  <header id="site-header"></header>
+  <div class="ticker" id="ticker"></div>
+  <main class="wrap">
+    <section class="page-hero">
+      <h1 id="ab-title"></h1>
+      <p id="ab-promise"></p>
+    </section>
+    <div class="prose" id="ab-prose"></div>
+  </main>
+  <footer id="site-footer"></footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    initChrome("about");
+    var b = MSM.brand;
+    document.getElementById("ab-title").textContent = t("about_title");
+    document.getElementById("ab-promise").textContent = L(b.promise);
+
+    var whoEn = "MSM TV NEWS is the flagship news channel of " + L(b.company) + ", a Karnataka-based media company headquartered in Bengaluru. We are a 24×7 global news platform covering politics, national and international affairs, business, technology, sports, entertainment, culture and health — across television and digital.";
+    var whoKn = "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ಎಂಬುದು ಬೆಂಗಳೂರು ಕೇಂದ್ರಿತ " + L(b.company) + " ಕಂಪನಿಯ ಪ್ರಮುಖ ಸುದ್ದಿ ವಾಹಿನಿ. ರಾಜಕೀಯ, ರಾಷ್ಟ್ರೀಯ ಮತ್ತು ಅಂತಾರಾಷ್ಟ್ರೀಯ ವಿದ್ಯಮಾನ, ವಾಣಿಜ್ಯ, ತಂತ್ರಜ್ಞಾನ, ಕ್ರೀಡೆ, ಮನರಂಜನೆ, ಸಂಸ್ಕೃತಿ ಮತ್ತು ಆರೋಗ್ಯವನ್ನು ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ 24×7 ವರದಿ ಮಾಡುವ ಜಾಗತಿಕ ವೇದಿಕೆ.";
+
+    var values = [
+      { en:["Fair","Balanced reporting, every side heard."], kn:["ನ್ಯಾಯ","ಸಮತೋಲಿತ ವರದಿ, ಎಲ್ಲ ಕಡೆಯ ಧ್ವನಿ."] },
+      { en:["Fast","Breaking news the moment it happens."], kn:["ವೇಗ","ಘಟನೆ ನಡೆದ ಕ್ಷಣವೇ ಸುದ್ದಿ."] },
+      { en:["Fearless","Journalism without fear or favour."], kn:["ನಿರ್ಭೀತ","ಭಯ, ಪಕ್ಷಪಾತವಿಲ್ಲದ ಪತ್ರಿಕೋದ್ಯಮ."] },
+      { en:["Trusted","Truth, trust and transparency."], kn:["ವಿಶ್ವಾಸಾರ್ಹ","ಸತ್ಯ, ವಿಶ್ವಾಸ, ಪಾರದರ್ಶಕತೆ."] }
+    ];
+    var why = [
+      ["r_reach"],["r_impact"],["r_trust"],["r_team"],["r_cover"],["r_fast"]
+    ];
+    var lang = currentLang();
+    function vv(x){ return lang==="kn"?x.kn:x.en; }
+
+    var corp = [
+      [t("corporate_h")==="ಕಂಪನಿ ಮಾಹಿತಿ"?"ಕಂಪನಿ":"Company", L(b.company)],
+      ["CIN", b.cin],
+      [lang==="kn"?"ನೋಂದಣಿ ಸಂಖ್ಯೆ":"Registration No.", b.regNo],
+      [lang==="kn"?"ಸ್ಥಾಪನೆ ದಿನಾಂಕ":"Date of Incorporation", L(b.incorp)],
+      [lang==="kn"?"ಸ್ಥಿತಿ":"Status", '<span class="badge-active">'+L(b.status)+'</span>'],
+      [lang==="kn"?"ವರ್ಗ":"Class", L(b.classType)],
+      ["ROC", L(b.roc)],
+      [lang==="kn"?"ಅಧಿಕೃತ ಬಂಡವಾಳ":"Authorised Capital", b.authCapital],
+      [lang==="kn"?"ಪಾವತಿ ಬಂಡವಾಳ":"Paid-up Capital", b.paidCapital],
+      [t("address_label"), L(b.address)]
+    ];
+
+    var html = "";
+    html += '<h2>'+t("about_who")+'</h2><p>'+ (lang==="kn"?whoKn:whoEn) +'</p>';
+    html += '<h2>'+t("about_mission_h")+'</h2><p>'+ L(b.mission) +' — '+ L(b.tagline) +'.</p>';
+    html += '<h2>'+t("about_values_h")+'</h2><div class="values-grid">'+
+            values.map(function(v){ var x=vv(v); return '<div class="vcard"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'; }).join("")+'</div>';
+    html += '<h2>'+t("about_offer_h")+'</h2><div class="chip-list">'+
+            I18N[lang].offer.map(function(o){ return '<span class="chip">'+o+'</span>'; }).join("")+'</div>';
+    html += '<h2>'+t("about_why_h")+'</h2><div class="why-grid">'+
+            why.map(function(w){ return '<div class="vcard"><b>'+t(w[0])+'</b></div>'; }).join("")+'</div>';
+    html += '<h2>'+t("corporate_h")+'</h2><table class="corp">'+
+            corp.map(function(r){ return '<tr><th>'+r[0]+'</th><td>'+r[1]+'</td></tr>'; }).join("")+'</table>';
+
+    document.getElementById("ab-prose").innerHTML = html;
+  </script>
+</body>
+</html>
