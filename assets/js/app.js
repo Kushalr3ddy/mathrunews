@@ -340,26 +340,46 @@ function renderAbout() {
    PAGE: CONTACT
    ===================================================================== */
 function renderContact() {
-  const lang = currentLang();
+  const b = MSM.brand, lang = currentLang();
   const faq = I18N[lang].faq || I18N.en.faq;
+  const coords = "12.9387148,77.5860902"; // registered office, Jayanagar, Bengaluru
 
   document.getElementById("app").innerHTML = `
   <section class="page-hero">${orbs()}
-    <div class="wrap"><h1>${esc(t("contact_h"))}</h1><p>${esc(t("contact_page_sub"))}</p></div>
+    <div class="wrap"><span class="sec-kicker">${esc(t("nav_contact"))}</span><h1>${esc(t("contact_h"))}</h1><p>${esc(t("contact_page_sub"))}</p></div>
   </section>
   <section class="section">
-    <div class="wrap two-col">
-      <div class="contact-card" id="ct-info"></div>
+    <div class="wrap two-col two-col-form">
       <div class="contact-card">
         <h3 class="mini-h" style="margin-top:0">${esc(t("send_msg_h"))}</h3>
         <form class="msm-form" id="ct-form"></form>
       </div>
+      <div class="stack-cards">
+        <div class="contact-card">
+          <span class="tag">${esc(t("reg_office_h"))}</span>
+          <address class="addr"><strong>${esc(L(b.company))}</strong><br>${esc(L(b.address))}</address>
+        </div>
+        <div class="contact-card">
+          <table class="spec">
+            <caption>${esc(t("reach_h"))}</caption>
+            <tbody>
+              <tr><th scope="row">${esc(t("email_us"))}</th><td><a href="mailto:${b.email}">${esc(b.email)}</a></td></tr>
+              <tr><th scope="row">${esc(t("call_us"))}</th><td><a href="tel:${b.phoneRaw}">${esc(b.phone)}</a></td></tr>
+            </tbody>
+          </table>
+          <p class="small">${esc(t("hours_detail"))}</p>
+          ${socialRow(b)}
+        </div>
+      </div>
     </div>
     <div class="map-wrap">
       <h3 class="mini-h">${esc(t("find_us"))}</h3>
-      <iframe class="map-embed" title="MSM TV NEWS location"
-        src="https://www.google.com/maps?q=${encodeURIComponent("277/A, 6th Cross, Jayanagar 3rd Block, Bangalore South, Bengaluru, Karnataka 560011")}&output=embed"
-        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-card">
+        <iframe class="map-embed" title="MSM TV NEWS registered office, Jayanagar, Bengaluru"
+          src="https://www.google.com/maps?q=${coords}&z=16&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <a class="arrow-link" href="https://www.google.com/maps/dir/?api=1&destination=${coords}" target="_blank" rel="noopener">${esc(t("directions"))} →</a>
+      </div>
     </div>
   </section>
   <section class="section section-alt2">
@@ -372,8 +392,7 @@ function renderContact() {
   </section>
   ${ctaBand()}`;
 
-  document.getElementById("ct-info").innerHTML = contactInfoCard();
-  buildForm("ct-form", t("contact_h"));
+  buildForm("ct-form", { subject: t("contact_h"), withOrg: true, withType: true, typeOptions: I18N[lang].contact_types, withConsent: true });
 }
 
 /* =====================================================================
@@ -438,5 +457,5 @@ function renderAdvertise() {
     </div>
   </section>`;
 
-  buildForm("ad-form", t("advertise_h"));
+  buildForm("ad-form", { subject: t("advertise_h"), withOrg: true });
 }

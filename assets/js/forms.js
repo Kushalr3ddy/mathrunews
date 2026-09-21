@@ -25,32 +25,83 @@ function socialRow(b) {
   </div>`;
 }
 
-function buildForm(formId, subjectDefault) {
+/* Rich form builder with inline validation + mailto submit.
+   opts: { subject, withOrg, withType, typeOptions:[], withConsent } */
+function buildForm(formId, opts) {
   const form = document.getElementById(formId);
   if (!form) return;
+  opts = opts || {};
+  const subjectDefault = opts.subject || "";
+  const req = '<span class="req" aria-hidden="true">*</span>';
+  const field = (name, label, input, span) =>
+    `<div class="field${span ? " span-2" : ""}"><label for="${formId}-${name}">${label}</label>${input}<p class="field-error" id="${formId}-${name}-err" role="alert"></p></div>`;
+
+  const typeSelect = opts.withType
+    ? field("type", t("form_type") + req,
+        `<select id="${formId}-type" name="type" required aria-required="true"><option value="">${t("form_select")}</option>${(opts.typeOptions || []).map(o => `<option>${o}</option>`).join("")}</select>`)
+    : "";
+  const orgField = opts.withOrg
+    ? field("org", t("form_org"), `<input type="text" id="${formId}-org" name="org" autocomplete="organization">`)
+    : "";
+  const consent = opts.withConsent
+    ? `<div class="field check-field"><label class="check"><input type="checkbox" id="${formId}-consent" name="consent" required aria-required="true"><span>${t("form_consent")}</span></label><p class="field-error" id="${formId}-consent-err" role="alert"></p></div>`
+    : "";
+
+  form.setAttribute("novalidate", "");
   form.innerHTML = `
-    <label>${t("form_name")}<input type="text" name="name" required></label>
-    <label>${t("form_phone")}<input type="tel" name="phone"></label>
-    <label>${t("form_email")}<input type="email" name="email"></label>
-    <label>${t("form_subject")}<input type="text" name="subject" value="${subjectDefault}"></label>
-    <label>${t("form_msg")}<textarea name="message" rows="5" required></textarea></label>
-    <button type="submit" class="btn-gold">${t("form_send")}</button>
+    <div class="form-grid">
+      ${field("name", t("form_name") + req, `<input type="text" id="${formId}-name" name="name" required aria-required="true" autocomplete="name" placeholder="${t("form_name")}">`)}
+      ${field("phone", t("form_phone") + req, `<input type="tel" id="${formId}-phone" name="phone" required aria-required="true" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210">`)}
+      ${field("email", t("form_email") + req, `<input type="email" id="${formId}-email" name="email" required aria-required="true" inputmode="email" spellcheck="false" autocomplete="email" placeholder="you@example.com">`)}
+      ${orgField}
+      ${typeSelect}
+      ${field("subject", t("form_subject") + req, `<input type="text" id="${formId}-subject" name="subject" required aria-required="true" value="${esc ? esc(subjectDefault) : subjectDefault}">`)}
+      ${field("message", t("form_msg") + req, `<textarea id="${formId}-message" name="message" rows="6" required aria-required="true" placeholder="${t("form_msg")}…"></textarea>`, true)}
+    </div>
+    ${consent}
+    <p class="form-status" data-status role="status" aria-live="polite"></p>
+    <div class="btn-row"><button type="submit" class="btn-gold">${t("form_send")}</button></div>
     <p class="form-note">${t("form_note")}</p>`;
+
+  const status = form.querySelector("[data-status]");
+  const setErr = (name, msg) => {
+    const el = form.querySelector(`#${formId}-${name}-err`);
+    const inp = form.querySelector(`#${formId}-${name}`);
+    if (el) el.textContent = msg || "";
+    if (inp) inp.classList.toggle("is-invalid", !!msg);
+    return !msg;
+  };
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    const fd = new FormData(form);
-    const name = fd.get("name") || "";
-    const phone = fd.get("phone") || "";
-    const email = fd.get("email") || "";
-    const subject = fd.get("subject") || subjectDefault;
-    const message = fd.get("message") || "";
-    const body =
-      `Name: ${name}\n` +
-      `Phone: ${phone}\n` +
-      `Email: ${email}\n\n` +
-      `${message}\n\n— sent via MSM TV NEWS website`;
-    const href = `mailto:${MSM.brand.email}?subject=${encodeURIComponent("[MSM TV NEWS] " + subject)}&body=${encodeURIComponent(body)}`;
+    const g = n => (form.querySelector(`#${formId}-${n}`) || {}).value || "";
+    let ok = true, firstBad = null;
+    const need = ["name", "phone", "email", "subject", "message"];
+    if (opts.withType) need.push("type");
+    need.forEach(n => {
+      const bad = !g(n).trim();
+      if (!setErr(n, bad ? t("form_err_required") : "") && !firstBad) firstBad = n;
+      ok = ok && !bad;
+    });
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(g("email"));
+    if (g("email").trim() && !emailOk) { setErr("email", t("form_err_email")); if (!firstBad) firstBad = "email"; ok = false; }
+    if (opts.withConsent) {
+      const c = form.querySelector(`#${formId}-consent`);
+      const bad = c && !c.checked;
+      if (!setErr("consent", bad ? t("form_err_consent") : "") && !firstBad) firstBad = "consent";
+      ok = ok && !bad;
+    }
+    if (!ok) { if (firstBad) (form.querySelector(`#${formId}-${firstBad}`) || {}).focus?.(); return; }
+
+    const lines = [
+      `Name: ${g("name")}`, `Phone: ${g("phone")}`, `Email: ${g("email")}`,
+      opts.withOrg ? `Organisation: ${g("org")}` : null,
+      opts.withType ? `Enquiry type: ${g("type")}` : null,
+      "", g("message"), "", "— sent via MSM TV NEWS website"
+    ].filter(x => x !== null);
+    const subject = g("subject") || subjectDefault;
+    const href = `mailto:${MSM.brand.email}?subject=${encodeURIComponent("[MSM TV NEWS] " + subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+    if (status) status.textContent = t("form_opening");
     window.location.href = href;
   });
 }
