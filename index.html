@@ -3,36 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MSM TV NEWS — Voice of Truth, Vision of Future</title>
-  <meta name="description" content="MSM TV NEWS by Matru Smruthi Media Pvt Ltd — a Karnataka-based global news channel. Breaking, national, business, sports, technology and more.">
+  <title>MSM TV NEWS — Launching Soon</title>
+  <meta name="description" content="MSM TV NEWS by Matru Smruthi Media Pvt Ltd — a Karnataka-based 24×7 global news channel. Launching soon on television and digital. Truth, Trust, Transparency.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b1c3f'/%3E%3Ctext x='16' y='24' font-family='Georgia' font-size='22' font-weight='700' text-anchor='middle' fill='%23d4af37'%3EM%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&family=Anek+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700;800&family=Anek+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body data-page="home">
+<body>
   <header id="site-header"></header>
   <div class="ticker" id="ticker"></div>
-
-  <main class="wrap">
-    <section class="home-hero" id="home-hero"></section>
-
-    <div class="section-head"><h2 id="h-latest">Latest News</h2><span class="line"></span></div>
-    <div class="cards cards-3" id="home-latest"></div>
-
-    <div id="home-sections"></div>
-  </main>
-
+  <main id="app"></main>
   <footer id="site-footer"></footer>
 
   <script src="assets/js/data.js"></script>
   <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/forms.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
-    initChrome("home");
-    document.getElementById("h-latest").textContent = t("latest");
-    renderHome();
+    initChrome();
+    renderLanding();
   </script>
 </body>
 </html>
