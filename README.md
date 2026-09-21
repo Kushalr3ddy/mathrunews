@@ -7,6 +7,9 @@ dependencies.
 
 Live: **https://kushalr3ddy.github.io/mathrunews/**
 
+- Clean URLs: each page is a folder with an `index.html`, so it serves at
+  `/about/`, `/coverage/`, `/advertise/`, `/contact/` (no `.html`). A base-path
+  variable (`window.MSM_BASE`) keeps every asset/link resolving from any depth.
 - Bilingual: **English + Kannada** (toggle in the top bar, remembered per browser)
 - Sections: launch hero · coverage areas · why choose us · about + corporate info · advertise · contact
 - Live **IST clock** and a rolling launch-updates ticker

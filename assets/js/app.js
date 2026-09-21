@@ -1,9 +1,13 @@
 /* =====================================================================
    MSM TV NEWS — site logic. Pure client-side, no dependencies.
-   Pages: index (landing) · about.html · contact.html
+   Pages (clean URLs via folders): / · /about/ · /coverage/ · /advertise/ · /contact/
    ===================================================================== */
 
 /* ---------- helpers ---------- */
+/* BASE lets pages live in folders (clean URLs). Home sets "", sub-pages set "../". */
+const BASE = (typeof window !== "undefined" && window.MSM_BASE) || "";
+function href(seg) { return (BASE + seg) || "./"; }   // seg: "" (home), "about/", ...
+function asset(p) { return BASE + p; }
 function L(obj) { const lang = currentLang(); return (obj && (obj[lang] != null)) ? obj[lang] : (obj && obj.en) || ""; }
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 function getCat(id) { return MSM.categories.find(c => c.id === id) || { id, en: id, kn: id, color: "#555" }; }
@@ -60,18 +64,18 @@ function coverageCard(cat) {
   const c = getCat(cat.id), dark = shade(c.color, -32);
   return `
   <div class="cov-card" style="background:linear-gradient(135deg,${c.color},${dark})">
-    <img class="cov-img" src="assets/img/cat/${c.id}.jpg" alt="${esc(L(c))}" loading="lazy" onerror="this.remove()">
+    <img class="cov-img" src="${asset('assets/img/cat/' + c.id + '.jpg')}" alt="${esc(L(c))}" loading="lazy" onerror="this.remove()">
     <span class="cov-scrim"></span><span class="cov-label">${esc(L(c))}</span>
   </div>`;
 }
 
 /* ---------- header / nav ---------- */
 const NAV = [
-  ["index.html", "nav_home", "home"],
-  ["about.html", "nav_about", "about"],
-  ["coverage.html", "nav_coverage", "coverage"],
-  ["advertise.html", "nav_advertise", "advertise"],
-  ["contact.html", "nav_contact", "contact"]
+  ["", "nav_home", "home"],
+  ["about/", "nav_about", "about"],
+  ["coverage/", "nav_coverage", "coverage"],
+  ["advertise/", "nav_advertise", "advertise"],
+  ["contact/", "nav_contact", "contact"]
 ];
 function buildHeader(active) {
   const b = MSM.brand;
@@ -89,21 +93,21 @@ function buildHeader(active) {
   </div>
   <div class="masthead">
     <div class="wrap masthead-inner">
-      <a class="brand" href="index.html" aria-label="MSM TV NEWS">
+      <a class="brand" href="${href('')}" aria-label="MSM TV NEWS">
         ${msmLogo(52)}
         <span class="brand-text">
           <span class="brand-msm">MSM<b>TV</b><i>NEWS</i></span>
           <span class="brand-co">${esc(L(b.company))}</span>
         </span>
       </a>
-      <a class="mast-cta" href="advertise.html">${esc(t("nav_advertise"))}</a>
+      <a class="mast-cta" href="${href('advertise/')}">${esc(t("nav_advertise"))}</a>
     </div>
   </div>
   <nav class="mainnav">
     <div class="wrap mainnav-inner">
       <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
       <div class="nav-links" id="navLinks">
-        ${NAV.map(n => `<a class="nav-link ${active === n[2] && n[2] ? "is-active" : ""}" href="${n[0]}">${esc(t(n[1]))}</a>`).join("")}
+        ${NAV.map(n => `<a class="nav-link ${active === n[2] && n[2] ? "is-active" : ""}" href="${href(n[0])}">${esc(t(n[1]))}</a>`).join("")}
       </div>
     </div>
   </nav>`;
@@ -141,7 +145,7 @@ function buildFooter() {
     </div>
     <div class="foot-col">
       <h4>${esc(t("foot_sections"))}</h4>
-      <div class="foot-links">${NAV.map(n => `<a href="${n[0]}">${esc(t(n[1]))}</a>`).join("")}</div>
+      <div class="foot-links">${NAV.map(n => `<a href="${href(n[0])}">${esc(t(n[1]))}</a>`).join("")}</div>
     </div>
     <div class="foot-col">
       <h4>${esc(t("foot_connect"))}</h4>
@@ -177,7 +181,7 @@ function inspirationSection() {
   <section class="section section-alt" id="inspiration">
     <div class="wrap insp-wrap">
       <div class="insp-photo">
-        <img src="assets/img/inspiration.jpg" alt="${esc(t("insp_name"))}" loading="lazy">
+        <img src="${asset('assets/img/inspiration.jpg')}" alt="${esc(t("insp_name"))}" loading="lazy">
         <span class="insp-cap">${esc(t("insp_name"))}</span>
       </div>
       <div class="insp-text">
@@ -225,8 +229,8 @@ function ctaBand() {
         <p>${esc(t("cta_band_sub"))}</p>
       </div>
       <div class="cta-actions">
-        <a class="btn-gold" href="advertise.html">${esc(t("nav_advertise"))}</a>
-        <a class="btn-ghost" href="contact.html">${esc(t("cta_contact"))}</a>
+        <a class="btn-gold" href="${href('advertise/')}">${esc(t("nav_advertise"))}</a>
+        <a class="btn-ghost" href="${href('contact/')}">${esc(t("cta_contact"))}</a>
       </div>
     </div>
   </section>`;
@@ -260,8 +264,8 @@ function renderLanding() {
       <div class="soon-badge"><span class="dot"></span>${esc(t("hero_soon"))}</div>
       <p class="hero-sub">${esc(t("hero_sub"))}</p>
       <div class="hero-cta">
-        <a class="btn-gold" href="index.html#advertise">${esc(t("cta_advertise"))}</a>
-        <a class="btn-ghost" href="contact.html">${esc(t("cta_contact"))}</a>
+        <a class="btn-gold" href="${href('advertise/')}">${esc(t("cta_advertise"))}</a>
+        <a class="btn-ghost" href="${href('contact/')}">${esc(t("cta_contact"))}</a>
       </div>
       <div class="hero-values">${esc(L(b.values))}</div>
       <a class="hero-scroll" href="#stats">${esc(t("scroll"))} ↓</a>
@@ -281,7 +285,7 @@ function renderLanding() {
     <div class="wrap">
       <div class="sec-head"><span class="sec-kicker">${esc(t("hero_kicker"))}</span><h2>${esc(t("coverage_h"))}</h2><p>${esc(t("coverage_sub"))}</p></div>
       <div class="cov-grid">${MSM.categories.map(coverageCard).join("")}</div>
-      <div class="sec-cta"><a class="btn-outline" href="coverage.html">${esc(t("view_coverage"))} →</a></div>
+      <div class="sec-cta"><a class="btn-outline" href="${href('coverage/')}">${esc(t("view_coverage"))} →</a></div>
     </div>
   </section>
 
