@@ -37,16 +37,34 @@ const MSM = {
     { en: "Truth · Trust · Transparency — your voice, your channel", kn: "ಸತ್ಯ · ವಿಶ್ವಾಸ · ಪಾರದರ್ಶಕತೆ — ನಿಮ್ಮ ಧ್ವನಿ, ನಿಮ್ಮ ವಾಹಿನಿ" }
   ],
 
-  /* coverage areas (visual grid — not clickable news sections) */
+  /* coverage areas / beats */
   categories: [
-    { id: "politics",      en: "Politics",       kn: "ರಾಜಕೀಯ",        color: "#b8342b" },
-    { id: "national",      en: "National",       kn: "ರಾಷ್ಟ್ರೀಯ",     color: "#c0631f" },
-    { id: "international",  en: "International",  kn: "ಅಂತಾರಾಷ್ಟ್ರೀಯ", color: "#1f6f8b" },
-    { id: "business",      en: "Business",       kn: "ವಾಣಿಜ್ಯ",       color: "#1e7a4d" },
-    { id: "technology",    en: "Technology",     kn: "ತಂತ್ರಜ್ಞಾನ",     color: "#4b3fa6" },
-    { id: "sports",        en: "Sports",         kn: "ಕ್ರೀಡೆ",         color: "#0e7c86" },
-    { id: "entertainment", en: "Entertainment",  kn: "ಮನರಂಜನೆ",       color: "#a5257c" },
-    { id: "culture",       en: "Culture",        kn: "ಸಂಸ್ಕೃತಿ",       color: "#9c6b1a" },
-    { id: "health",        en: "Health",         kn: "ಆರೋಗ್ಯ",        color: "#2f7d32" }
+    { id: "politics", en: "Politics", kn: "ರಾಜಕೀಯ", color: "#b8342b",
+      desc: { en: "State and national politics, elections, policy and the decisions that shape public life.",
+              kn: "ರಾಜ್ಯ ಮತ್ತು ರಾಷ್ಟ್ರ ರಾಜಕೀಯ, ಚುನಾವಣೆ, ನೀತಿ ಮತ್ತು ಸಾರ್ವಜನಿಕ ಜೀವನವನ್ನು ರೂಪಿಸುವ ನಿರ್ಧಾರಗಳು." } },
+    { id: "national", en: "National", kn: "ರಾಷ್ಟ್ರೀಯ", color: "#c0631f",
+      desc: { en: "The big stories from across India — governance, society and everything in between.",
+              kn: "ಭಾರತದಾದ್ಯಂತ ದೊಡ್ಡ ಸುದ್ದಿಗಳು — ಆಡಳಿತ, ಸಮಾಜ ಮತ್ತು ಅದರ ನಡುವಿನ ಎಲ್ಲವೂ." } },
+    { id: "international", en: "International", kn: "ಅಂತಾರಾಷ್ಟ್ರೀಯ", color: "#1f6f8b",
+      desc: { en: "World affairs, diplomacy and global events — brought home in your language.",
+              kn: "ಜಾಗತಿಕ ವಿದ್ಯಮಾನ, ರಾಜತಾಂತ್ರಿಕತೆ ಮತ್ತು ಜಗತ್ತಿನ ಘಟನೆಗಳು — ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ." } },
+    { id: "business", en: "Business", kn: "ವಾಣಿಜ್ಯ", color: "#1e7a4d",
+      desc: { en: "Markets, startups, jobs and the economy — clear analysis you can act on.",
+              kn: "ಮಾರುಕಟ್ಟೆ, ಸ್ಟಾರ್ಟಪ್, ಉದ್ಯೋಗ ಮತ್ತು ಆರ್ಥಿಕತೆ — ಸ್ಪಷ್ಟ ವಿಶ್ಲೇಷಣೆ." } },
+    { id: "technology", en: "Technology", kn: "ತಂತ್ರಜ್ಞಾನ", color: "#4b3fa6",
+      desc: { en: "Innovation, gadgets, AI and the digital shifts changing how we live.",
+              kn: "ನಾವೀನ್ಯತೆ, ಗ್ಯಾಜೆಟ್, ಎಐ ಮತ್ತು ಜೀವನವನ್ನು ಬದಲಿಸುತ್ತಿರುವ ಡಿಜಿಟಲ್ ಬದಲಾವಣೆಗಳು." } },
+    { id: "sports", en: "Sports", kn: "ಕ್ರೀಡೆ", color: "#0e7c86",
+      desc: { en: "Cricket, kabaddi and every game that matters — live scores, analysis and drama.",
+              kn: "ಕ್ರಿಕೆಟ್, ಕಬಡ್ಡಿ ಮತ್ತು ಪ್ರತಿ ಆಟ — ಲೈವ್ ಸ್ಕೋರ್, ವಿಶ್ಲೇಷಣೆ ಮತ್ತು ರೋಚಕತೆ." } },
+    { id: "entertainment", en: "Entertainment", kn: "ಮನರಂಜನೆ", color: "#a5257c",
+      desc: { en: "Cinema, OTT, music and celebrity news from Sandalwood and beyond.",
+              kn: "ಸಿನಿಮಾ, ಒಟಿಟಿ, ಸಂಗೀತ ಮತ್ತು ಸ್ಯಾಂಡಲ್‌ವುಡ್‌ನ ತಾರಾ ಸುದ್ದಿಗಳು." } },
+    { id: "culture", en: "Culture", kn: "ಸಂಸ್ಕೃತಿ", color: "#9c6b1a",
+      desc: { en: "Heritage, festivals, art and the traditions that define Karnataka and India.",
+              kn: "ಪರಂಪರೆ, ಹಬ್ಬ, ಕಲೆ ಮತ್ತು ಕರ್ನಾಟಕ-ಭಾರತವನ್ನು ವ್ಯಾಖ್ಯಾನಿಸುವ ಸಂಪ್ರದಾಯಗಳು." } },
+    { id: "health", en: "Health", kn: "ಆರೋಗ್ಯ", color: "#2f7d32",
+      desc: { en: "Wellness, medicine and lifestyle — practical health news for every family.",
+              kn: "ಸ್ವಾಸ್ಥ್ಯ, ವೈದ್ಯಕೀಯ ಮತ್ತು ಜೀವನಶೈಲಿ — ಪ್ರತಿ ಕುಟುಂಬಕ್ಕೆ ಉಪಯುಕ್ತ ಆರೋಗ್ಯ ಸುದ್ದಿ." } }
   ]
 };

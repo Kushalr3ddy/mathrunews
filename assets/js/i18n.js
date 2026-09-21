@@ -59,6 +59,25 @@ const I18N = {
     // advertise
     advertise_h: "Advertise with MSM TV NEWS",
     advertise_sub: "Our platform. Your brand. Wide reach, maximum impact.",
+    adv_intro: "Reach engaged audiences across television and digital. From commercial spots to on-screen branding and full sponsorships, we build campaigns that fit your goals and budget — with the reach of a global news channel and the trust of a local one.",
+    adv_why_h: "Why advertise with us",
+    adv_formats_h: "Advertising formats",
+    adv_timing: "Prime time (8–11 AM · 6–11 PM) and non-prime slots available across TV and digital. Rates and a full media kit are shared on request.",
+    adv_enquire_h: "Request a media kit",
+    formats: [
+      ["Commercial spots (FCT)", "Classic 10–30 second ad films in commercial breaks through the day."],
+      ["L-Band", "An L-shaped branded overlay during live programming — seen without interrupting the news."],
+      ["Aston Band", "A scrolling strip along the bottom of screen for offers, taglines and messages."],
+      ["Logo Bug", "A persistent brand bug in the screen corner through a segment or show."],
+      ["Sponsorships", "Own a bulletin, segment or show with 'brought to you by' branding and mentions."],
+      ["Brand integration", "Custom-built segments and campaigns tailored to your objective and budget."]
+    ],
+    // coverage page
+    coverage_page_sub: "Nine beats, one newsroom. Here's what MSM TV NEWS will bring you — across television and digital.",
+    // CTA band
+    cta_band_h: "Be part of the launch",
+    cta_band_sub: "Advertise with MSM TV NEWS, or send your story to our news desk.",
+    view_coverage: "See all coverage",
     // contact
     contact_h: "Contact & News Desk",
     contact_sub: "Have a story, a tip, or want your news telecast? Reach the MSM TV NEWS desk.",
@@ -69,6 +88,7 @@ const I18N = {
     follow: "Follow us",
     hours: "News desk: 24 × 7",
     send_msg_h: "Send us a message",
+    find_us: "Find us",
     // FAQ
     faq_h: "Frequently asked",
     faq: [
@@ -142,6 +162,23 @@ const I18N = {
     corporate_h: "ಕಂಪನಿ ಮಾಹಿತಿ",
     advertise_h: "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್‌ನಲ್ಲಿ ಜಾಹೀರಾತು",
     advertise_sub: "ನಮ್ಮ ವೇದಿಕೆ. ನಿಮ್ಮ ಬ್ರ್ಯಾಂಡ್. ವಿಶಾಲ ವ್ಯಾಪ್ತಿ, ಗರಿಷ್ಠ ಪ್ರಭಾವ.",
+    adv_intro: "ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ ಸಕ್ರಿಯ ಪ್ರೇಕ್ಷಕರನ್ನು ತಲುಪಿ. ಕಮರ್ಷಿಯಲ್ ಸ್ಪಾಟ್‌ನಿಂದ ಆನ್-ಸ್ಕ್ರೀನ್ ಬ್ರ್ಯಾಂಡಿಂಗ್ ಮತ್ತು ಸಂಪೂರ್ಣ ಪ್ರಾಯೋಜಕತ್ವದವರೆಗೆ — ನಿಮ್ಮ ಗುರಿ ಮತ್ತು ಬಜೆಟ್‌ಗೆ ತಕ್ಕ ಪ್ರಚಾರ ರೂಪಿಸುತ್ತೇವೆ.",
+    adv_why_h: "ಏಕೆ ನಮ್ಮೊಂದಿಗೆ ಜಾಹೀರಾತು",
+    adv_formats_h: "ಜಾಹೀರಾತು ಸ್ವರೂಪಗಳು",
+    adv_timing: "ಪ್ರೈಮ್ ಟೈಮ್ (8–11 ಬೆಳಗ್ಗೆ · 6–11 ಸಂಜೆ) ಮತ್ತು ನಾನ್-ಪ್ರೈಮ್ ಸ್ಲಾಟ್‌ಗಳು ಲಭ್ಯ. ದರ ಮತ್ತು ಮೀಡಿಯಾ ಕಿಟ್ ವಿನಂತಿಯ ಮೇರೆಗೆ.",
+    adv_enquire_h: "ಮೀಡಿಯಾ ಕಿಟ್ ಕೋರಿ",
+    formats: [
+      ["ಕಮರ್ಷಿಯಲ್ ಸ್ಪಾಟ್ (FCT)", "ದಿನವಿಡೀ ಜಾಹೀರಾತು ವಿರಾಮಗಳಲ್ಲಿ 10–30 ಸೆಕೆಂಡ್ ಜಾಹೀರಾತು."],
+      ["ಎಲ್-ಬ್ಯಾಂಡ್", "ಲೈವ್ ಕಾರ್ಯಕ್ರಮದ ವೇಳೆ ಎಲ್-ಆಕಾರದ ಬ್ರ್ಯಾಂಡೆಡ್ ಓವರ್‌ಲೇ — ಸುದ್ದಿಗೆ ಅಡ್ಡಿಯಿಲ್ಲದೆ."],
+      ["ಆ್ಯಸ್ಟನ್ ಬ್ಯಾಂಡ್", "ಆಫರ್, ಟ್ಯಾಗ್‌ಲೈನ್ ಮತ್ತು ಸಂದೇಶಗಳಿಗೆ ಪರದೆಯ ಕೆಳಗಿನ ಸ್ಕ್ರೋಲಿಂಗ್ ಪಟ್ಟಿ."],
+      ["ಲೋಗೊ ಬಗ್", "ಸೆಗ್ಮೆಂಟ್ ಅಥವಾ ಶೋ ಉದ್ದಕ್ಕೂ ಪರದೆಯ ಮೂಲೆಯಲ್ಲಿ ಬ್ರ್ಯಾಂಡ್ ಬಗ್."],
+      ["ಪ್ರಾಯೋಜಕತ್ವ", "ಬುಲೆಟಿನ್, ಸೆಗ್ಮೆಂಟ್ ಅಥವಾ ಶೋ ಅನ್ನು 'ಪ್ರಾಯೋಜಿಸಿ' ಬ್ರ್ಯಾಂಡಿಂಗ್ ಮತ್ತು ಉಲ್ಲೇಖಗಳೊಂದಿಗೆ."],
+      ["ಬ್ರ್ಯಾಂಡ್ ಇಂಟಿಗ್ರೇಷನ್", "ನಿಮ್ಮ ಗುರಿ ಮತ್ತು ಬಜೆಟ್‌ಗೆ ತಕ್ಕ ಕಸ್ಟಮ್ ಸೆಗ್ಮೆಂಟ್ ಮತ್ತು ಪ್ರಚಾರ."]
+    ],
+    coverage_page_sub: "ಒಂಬತ್ತು ವಿಭಾಗ, ಒಂದೇ ಸುದ್ದಿಮನೆ. ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ನಿಮಗೆ ತರುವುದು ಇದು — ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ.",
+    cta_band_h: "ಆರಂಭದ ಭಾಗವಾಗಿ",
+    cta_band_sub: "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್‌ನಲ್ಲಿ ಜಾಹೀರಾತು ನೀಡಿ ಅಥವಾ ನಿಮ್ಮ ಸುದ್ದಿಯನ್ನು ನಮ್ಮ ಕೇಂದ್ರಕ್ಕೆ ಕಳುಹಿಸಿ.",
+    view_coverage: "ಎಲ್ಲ ವ್ಯಾಪ್ತಿ ನೋಡಿ",
     contact_h: "ಸಂಪರ್ಕ ಮತ್ತು ಸುದ್ದಿ ಕೇಂದ್ರ",
     contact_sub: "ಸುದ್ದಿ, ಸುಳಿವು ಇದೆಯೇ ಅಥವಾ ನಿಮ್ಮ ಸುದ್ದಿ ಪ್ರಸಾರ ಬೇಕೇ? ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ಕೇಂದ್ರವನ್ನು ಸಂಪರ್ಕಿಸಿ.",
     contact_page_sub: "ನಿಮ್ಮಿಂದ ಕೇಳಲು ನಾವು ಸಿದ್ಧ — ಸುದ್ದಿ ಸುಳಿವು, ಪ್ರಸಾರ ವಿನಂತಿ, ಪಾಲುದಾರಿಕೆ ಮತ್ತು ಜಾಹೀರಾತು ವಿಚಾರಣೆಗಳು ಇಲ್ಲಿಗೆ ತಲುಪುತ್ತವೆ.",
@@ -151,6 +188,7 @@ const I18N = {
     follow: "ನಮ್ಮನ್ನು ಅನುಸರಿಸಿ",
     hours: "ಸುದ್ದಿ ಕೇಂದ್ರ: 24 × 7",
     send_msg_h: "ನಮಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ",
+    find_us: "ನಮ್ಮನ್ನು ಹುಡುಕಿ",
     faq_h: "ಪದೇಪದೇ ಕೇಳುವ ಪ್ರಶ್ನೆಗಳು",
     faq: [
       ["ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ಯಾವಾಗ ಆರಂಭ?", "ನಾವು ಅಂತಿಮ ಸಿದ್ಧತೆಯಲ್ಲಿದ್ದೇವೆ; ಆರಂಭದ ದಿನಾಂಕವನ್ನು ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟಿಸುತ್ತೇವೆ. ಮೊದಲ ಮಾಹಿತಿಗಾಗಿ ನಮ್ಮನ್ನು ಅನುಸರಿಸಿ ಅಥವಾ ವಾಟ್ಸ್‌ಆ್ಯಪ್‌ನಲ್ಲಿ ಸಂದೇಶ ಕಳುಹಿಸಿ."],

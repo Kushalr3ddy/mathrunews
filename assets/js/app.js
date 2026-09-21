@@ -53,6 +53,9 @@ function shade(hex, pct) {
   r = Math.max(0, Math.min(255, r + pct)); g = Math.max(0, Math.min(255, g + pct)); b = Math.max(0, Math.min(255, b + pct));
   return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
+function orbs() {
+  return '<div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>';
+}
 function coverageCard(cat) {
   const c = getCat(cat.id), dark = shade(c.color, -32);
   return `
@@ -66,9 +69,8 @@ function coverageCard(cat) {
 const NAV = [
   ["index.html", "nav_home", "home"],
   ["about.html", "nav_about", "about"],
-  ["index.html#coverage", "nav_coverage", ""],
-  ["index.html#why", "nav_why", ""],
-  ["index.html#advertise", "nav_advertise", ""],
+  ["coverage.html", "nav_coverage", "coverage"],
+  ["advertise.html", "nav_advertise", "advertise"],
   ["contact.html", "nav_contact", "contact"]
 ];
 function buildHeader(active) {
@@ -94,7 +96,7 @@ function buildHeader(active) {
           <span class="brand-co">${esc(L(b.company))}</span>
         </span>
       </a>
-      <a class="mast-cta" href="index.html#advertise">${esc(t("nav_advertise"))}</a>
+      <a class="mast-cta" href="advertise.html">${esc(t("nav_advertise"))}</a>
     </div>
   </div>
   <nav class="mainnav">
@@ -135,13 +137,7 @@ function buildFooter() {
       <div class="foot-logo">${msmLogo(46)}<span class="brand-msm">MSM<b>TV</b><i>NEWS</i></span></div>
       <p class="foot-tag">${esc(t("foot_tag"))}</p>
       <p class="foot-mission">${esc(L(b.mission))}</p>
-      <div class="foot-social">
-        <a href="#" aria-label="Facebook" title="Facebook">f</a>
-        <a href="#" aria-label="YouTube" title="YouTube">▶</a>
-        <a href="#" aria-label="X" title="X">𝕏</a>
-        <a href="#" aria-label="Instagram" title="Instagram">◎</a>
-        <a href="https://wa.me/${b.phoneRaw}" aria-label="WhatsApp" title="WhatsApp">✆</a>
-      </div>
+      ${socialRow(b)}
     </div>
     <div class="foot-col">
       <h4>${esc(t("foot_sections"))}</h4>
@@ -220,19 +216,18 @@ function corporateTable() {
   ];
   return `<table class="corp">${corp.map(r => `<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join("")}</table>`;
 }
-function advertiseForm() {
-  const lang = currentLang();
-  const copyEn = "Reach audiences across television and digital with MSM TV NEWS. From primetime slots and news-break sponsorships to scrolling tickers, L-bands and branded segments, we build campaigns that fit your goals. Tell us about your brand and our team will get back with formats, reach and rate options.";
-  const copyKn = "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್‌ನೊಂದಿಗೆ ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ ಪ್ರೇಕ್ಷಕರನ್ನು ತಲುಪಿ. ಪ್ರೈಮ್‌ಟೈಮ್ ಸ್ಲಾಟ್, ನ್ಯೂಸ್-ಬ್ರೇಕ್ ಪ್ರಾಯೋಜಕತ್ವ, ಸ್ಕ್ರೋಲಿಂಗ್ ಟಿಕರ್, ಎಲ್-ಬ್ಯಾಂಡ್ ಮತ್ತು ಬ್ರ್ಯಾಂಡೆಡ್ ವಿಭಾಗಗಳವರೆಗೆ ನಿಮ್ಮ ಗುರಿಗೆ ತಕ್ಕ ಪ್ರಚಾರ ರೂಪಿಸುತ್ತೇವೆ. ನಿಮ್ಮ ಬ್ರ್ಯಾಂಡ್ ಬಗ್ಗೆ ತಿಳಿಸಿ; ನಮ್ಮ ತಂಡ ಫಾರ್ಮ್ಯಾಟ್, ವ್ಯಾಪ್ತಿ ಮತ್ತು ದರಗಳೊಂದಿಗೆ ಸಂಪರ್ಕಿಸುತ್ತದೆ.";
+function ctaBand() {
   return `
-  <section class="section section-dark" id="advertise">
-    <div class="wrap two-col">
+  <section class="section cta-band">
+    <div class="wrap cta-inner">
       <div>
-        <div class="sec-head left light"><h2>${esc(t("advertise_h"))}</h2><p>${esc(t("advertise_sub"))}</p></div>
-        <p class="adv-copy">${esc(lang === "kn" ? copyKn : copyEn)}</p>
-        <div class="adv-reasons">${["r_reach","r_impact","r_trust","r_team","r_cover","r_fast"].map(r => `<span class="adv-pill">${esc(t(r))}</span>`).join("")}</div>
+        <h2>${esc(t("cta_band_h"))}</h2>
+        <p>${esc(t("cta_band_sub"))}</p>
       </div>
-      <div class="contact-card"><form class="msm-form" id="ad-form"></form></div>
+      <div class="cta-actions">
+        <a class="btn-gold" href="advertise.html">${esc(t("nav_advertise"))}</a>
+        <a class="btn-ghost" href="contact.html">${esc(t("cta_contact"))}</a>
+      </div>
     </div>
   </section>`;
 }
@@ -257,6 +252,7 @@ function renderLanding() {
   document.getElementById("app").innerHTML = `
   <section class="hero" id="home">
     <div class="hero-glow"></div>
+    ${orbs()}
     <div class="wrap hero-inner">
       <div class="hero-logo">${msmLogo(96)}</div>
       <span class="hero-kicker">${esc(t("hero_kicker"))}</span>
@@ -285,6 +281,7 @@ function renderLanding() {
     <div class="wrap">
       <div class="sec-head"><span class="sec-kicker">${esc(t("hero_kicker"))}</span><h2>${esc(t("coverage_h"))}</h2><p>${esc(t("coverage_sub"))}</p></div>
       <div class="cov-grid">${MSM.categories.map(coverageCard).join("")}</div>
+      <div class="sec-cta"><a class="btn-outline" href="coverage.html">${esc(t("view_coverage"))} →</a></div>
     </div>
   </section>
 
@@ -297,9 +294,7 @@ function renderLanding() {
 
   ${inspirationSection()}
 
-  ${advertiseForm()}`;
-
-  buildForm("ad-form", t("advertise_h"));
+  ${ctaBand()}`;
 }
 
 /* =====================================================================
@@ -311,7 +306,7 @@ function renderAbout() {
   const whoKn = "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ಎಂಬುದು ಬೆಂಗಳೂರು ಕೇಂದ್ರಿತ " + L(b.company) + " ಕಂಪನಿಯ ಪ್ರಮುಖ ವಾಹಿನಿ. ರಾಜಕೀಯ, ರಾಷ್ಟ್ರೀಯ ಮತ್ತು ಅಂತಾರಾಷ್ಟ್ರೀಯ ವಿದ್ಯಮಾನ, ವಾಣಿಜ್ಯ, ತಂತ್ರಜ್ಞಾನ, ಕ್ರೀಡೆ, ಮನರಂಜನೆ, ಸಂಸ್ಕೃತಿ ಮತ್ತು ಆರೋಗ್ಯವನ್ನು ಒಳಗೊಂಡ 24×7 ಜಾಗತಿಕ ಸುದ್ದಿ ವೇದಿಕೆಯನ್ನು ನಾವು ರೂಪಿಸುತ್ತಿದ್ದೇವೆ — ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ. ಸ್ಥಳೀಯವಾಗಿ ಬೇರೂರಿ, ಜಗತ್ತಿನತ್ತ ದೃಷ್ಟಿಯಿಟ್ಟು, ವಿಶ್ವಾಸಾರ್ಹ, ವೇಗದ ಮತ್ತು ನಿರ್ಭೀತ ಪತ್ರಿಕೋದ್ಯಮವನ್ನು ಪ್ರತಿ ಪರದೆಗೆ ತಲುಪಿಸುವುದೇ ನಮ್ಮ ಗುರಿ.";
 
   document.getElementById("app").innerHTML = `
-  <section class="page-hero">
+  <section class="page-hero">${orbs()}
     <div class="wrap"><h1>${esc(t("about_h"))}</h1><p>${esc(t("about_sub"))}</p></div>
   </section>
   <section class="section">
@@ -345,7 +340,7 @@ function renderContact() {
   const faq = I18N[lang].faq || I18N.en.faq;
 
   document.getElementById("app").innerHTML = `
-  <section class="page-hero">
+  <section class="page-hero">${orbs()}
     <div class="wrap"><h1>${esc(t("contact_h"))}</h1><p>${esc(t("contact_page_sub"))}</p></div>
   </section>
   <section class="section">
@@ -356,6 +351,12 @@ function renderContact() {
         <form class="msm-form" id="ct-form"></form>
       </div>
     </div>
+    <div class="map-wrap">
+      <h3 class="mini-h">${esc(t("find_us"))}</h3>
+      <iframe class="map-embed" title="MSM TV NEWS location"
+        src="https://www.google.com/maps?q=${encodeURIComponent("277/A, 6th Cross, Jayanagar 3rd Block, Bangalore South, Bengaluru, Karnataka 560011")}&output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
   </section>
   <section class="section section-alt2">
     <div class="wrap faq-wrap">
@@ -365,9 +366,73 @@ function renderContact() {
       </div>
     </div>
   </section>
-  ${advertiseForm()}`;
+  ${ctaBand()}`;
 
   document.getElementById("ct-info").innerHTML = contactInfoCard();
   buildForm("ct-form", t("contact_h"));
+}
+
+/* =====================================================================
+   PAGE: COVERAGE
+   ===================================================================== */
+function renderCoverage() {
+  const rows = MSM.categories.map((c, i) => `
+    <div class="beat ${i % 2 ? "beat-rev" : ""}">
+      <div class="beat-photo">${coverageCard(c)}</div>
+      <div class="beat-text">
+        <h3>${esc(L(c))}</h3>
+        <p>${esc(L(c.desc))}</p>
+      </div>
+    </div>`).join("");
+  document.getElementById("app").innerHTML = `
+  <section class="page-hero">${orbs()}
+    <div class="wrap"><h1>${esc(t("coverage_h"))}</h1><p>${esc(t("coverage_page_sub"))}</p></div>
+  </section>
+  <section class="section"><div class="wrap beat-list">${rows}</div></section>
+  ${ctaBand()}`;
+}
+
+/* =====================================================================
+   PAGE: ADVERTISE
+   ===================================================================== */
+function renderAdvertise() {
+  const lang = currentLang();
+  const formats = I18N[lang].formats || I18N.en.formats;
+  const why = [["r_reach", "r_reach_d"], ["r_impact", "r_impact_d"], ["r_trust", "r_trust_d"], ["r_cover", "r_cover_d"]];
+  const checkSvg = '<svg viewBox="0 0 24 24" class="why-ic" aria-hidden="true"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  document.getElementById("app").innerHTML = `
+  <section class="page-hero">${orbs()}
+    <div class="wrap"><h1>${esc(t("advertise_h"))}</h1><p>${esc(t("advertise_sub"))}</p></div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="lead center-lead">${esc(t("adv_intro"))}</p>
+      <div class="sec-head"><h2>${esc(t("adv_why_h"))}</h2></div>
+      <div class="why-grid why-grid-4">${why.map(w => `<div class="why-card">${checkSvg}<div><b>${esc(t(w[0]))}</b><span>${esc(t(w[1]))}</span></div></div>`).join("")}</div>
+    </div>
+  </section>
+
+  <section class="section section-alt2">
+    <div class="wrap">
+      <div class="sec-head"><h2>${esc(t("adv_formats_h"))}</h2></div>
+      <div class="fmt-grid">
+        ${formats.map((f, i) => `<div class="fmt-card"><span class="fmt-num">${String(i + 1).padStart(2, "0")}</span><b>${esc(f[0])}</b><span class="fmt-d">${esc(f[1])}</span></div>`).join("")}
+      </div>
+      <p class="adv-timing">${esc(t("adv_timing"))}</p>
+    </div>
+  </section>
+
+  <section class="section section-dark" id="enquire">
+    <div class="wrap two-col">
+      <div>
+        <div class="sec-head left light"><h2>${esc(t("adv_enquire_h"))}</h2><p>${esc(t("advertise_sub"))}</p></div>
+        <div class="adv-reasons">${["r_reach", "r_impact", "r_trust", "r_team", "r_cover", "r_fast"].map(r => `<span class="adv-pill">${esc(t(r))}</span>`).join("")}</div>
+      </div>
+      <div class="contact-card"><form class="msm-form" id="ad-form"></form></div>
+    </div>
+  </section>`;
+
   buildForm("ad-form", t("advertise_h"));
 }
