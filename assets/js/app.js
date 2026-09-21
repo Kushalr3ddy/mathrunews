@@ -1,5 +1,6 @@
 /* =====================================================================
-   MSM TV NEWS — landing site logic. Pure client-side, no dependencies.
+   MSM TV NEWS — site logic. Pure client-side, no dependencies.
+   Pages: index (landing) · about.html · contact.html
    ===================================================================== */
 
 /* ---------- helpers ---------- */
@@ -46,31 +47,32 @@ function msmLogo(size) {
   </svg>`;
 }
 
-/* ---------- coverage thumbnail: category photo + label overlay ---------- */
-function coverageCard(cat) {
-  const c = getCat(cat.id);
-  const dark = shade(c.color, -32);
-  return `
-  <div class="cov-card" style="background:linear-gradient(135deg,${c.color},${dark})">
-    <img class="cov-img" src="assets/img/cat/${c.id}.jpg" alt="${esc(L(c))}" loading="lazy" onerror="this.remove()">
-    <span class="cov-scrim"></span>
-    <span class="cov-label">${esc(L(c))}</span>
-  </div>`;
-}
 function shade(hex, pct) {
   const n = parseInt(hex.slice(1), 16);
   let r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
   r = Math.max(0, Math.min(255, r + pct)); g = Math.max(0, Math.min(255, g + pct)); b = Math.max(0, Math.min(255, b + pct));
   return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
+function coverageCard(cat) {
+  const c = getCat(cat.id), dark = shade(c.color, -32);
+  return `
+  <div class="cov-card" style="background:linear-gradient(135deg,${c.color},${dark})">
+    <img class="cov-img" src="assets/img/cat/${c.id}.jpg" alt="${esc(L(c))}" loading="lazy" onerror="this.remove()">
+    <span class="cov-scrim"></span><span class="cov-label">${esc(L(c))}</span>
+  </div>`;
+}
 
-/* ---------- header ---------- */
-function buildHeader() {
+/* ---------- header / nav ---------- */
+const NAV = [
+  ["index.html", "nav_home", "home"],
+  ["about.html", "nav_about", "about"],
+  ["index.html#coverage", "nav_coverage", ""],
+  ["index.html#why", "nav_why", ""],
+  ["index.html#advertise", "nav_advertise", ""],
+  ["contact.html", "nav_contact", "contact"]
+];
+function buildHeader(active) {
   const b = MSM.brand;
-  const nav = [
-    ["#about", t("nav_about")], ["#coverage", t("nav_coverage")],
-    ["#why", t("nav_why")], ["#advertise", t("nav_advertise")], ["#contact", t("nav_contact")]
-  ];
   const host = document.getElementById("site-header");
   host.innerHTML = `
   <div class="topbar">
@@ -85,46 +87,33 @@ function buildHeader() {
   </div>
   <div class="masthead">
     <div class="wrap masthead-inner">
-      <a class="brand" href="#home" aria-label="MSM TV NEWS">
+      <a class="brand" href="index.html" aria-label="MSM TV NEWS">
         ${msmLogo(52)}
         <span class="brand-text">
           <span class="brand-msm">MSM<b>TV</b><i>NEWS</i></span>
           <span class="brand-co">${esc(L(b.company))}</span>
         </span>
       </a>
-      <a class="mast-cta" href="#advertise">${esc(t("nav_advertise"))}</a>
+      <a class="mast-cta" href="index.html#advertise">${esc(t("nav_advertise"))}</a>
     </div>
   </div>
   <nav class="mainnav">
     <div class="wrap mainnav-inner">
       <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
       <div class="nav-links" id="navLinks">
-        <a class="nav-link" href="#home">${esc(currentLang() === "kn" ? "ಮುಖಪುಟ" : "Home")}</a>
-        ${nav.map(n => `<a class="nav-link" href="${n[0]}">${esc(n[1])}</a>`).join("")}
+        ${NAV.map(n => `<a class="nav-link ${active === n[2] && n[2] ? "is-active" : ""}" href="${n[0]}">${esc(t(n[1]))}</a>`).join("")}
       </div>
     </div>
   </nav>`;
 
-  // live IST clock
   if (!window.__istTimer) {
-    window.__istTimer = setInterval(function () {
-      const c = document.getElementById("istClock");
-      if (c) c.textContent = istClockText();
-    }, 1000);
+    window.__istTimer = setInterval(() => { const c = document.getElementById("istClock"); if (c) c.textContent = istClockText(); }, 1000);
   }
-
-  // language toggle
   const lt = document.getElementById("langToggle");
   lt.textContent = currentLang() === "kn" ? "English" : "ಕನ್ನಡ";
   lt.addEventListener("click", () => { LangStore.set(currentLang() === "kn" ? "en" : "kn"); location.reload(); });
-
-  // mobile burger + close on link tap
-  const burger = document.getElementById("navBurger");
-  const links = document.getElementById("navLinks");
-  burger.addEventListener("click", () => {
-    const open = links.classList.toggle("open");
-    burger.setAttribute("aria-expanded", open ? "true" : "false");
-  });
+  const burger = document.getElementById("navBurger"), links = document.getElementById("navLinks");
+  burger.addEventListener("click", () => { const o = links.classList.toggle("open"); burger.setAttribute("aria-expanded", o ? "true" : "false"); });
   links.querySelectorAll("a").forEach(a => a.addEventListener("click", () => links.classList.remove("open")));
 }
 
@@ -133,17 +122,13 @@ function buildTicker() {
   const host = document.getElementById("ticker");
   if (!host) return;
   const items = MSM.announcements.map(x => `<span class="tick-item">${esc(L(x))}</span>`).join('<span class="tick-sep">✦</span>');
-  host.innerHTML = `
-    <span class="tick-label">${esc(t("updates"))}</span>
+  host.innerHTML = `<span class="tick-label">${esc(t("updates"))}</span>
     <div class="tick-viewport"><div class="tick-track">${items}<span class="tick-sep">✦</span>${items}</div></div>`;
 }
 
 /* ---------- footer ---------- */
 function buildFooter() {
-  const b = MSM.brand;
-  const host = document.getElementById("site-footer");
-  const year = new Date().getFullYear();
-  const links = [["#about", t("nav_about")], ["#coverage", t("nav_coverage")], ["#why", t("nav_why")], ["#advertise", t("nav_advertise")], ["#contact", t("nav_contact")]];
+  const b = MSM.brand, host = document.getElementById("site-footer"), year = new Date().getFullYear();
   host.innerHTML = `
   <div class="wrap footer-inner">
     <div class="foot-brand">
@@ -160,7 +145,7 @@ function buildFooter() {
     </div>
     <div class="foot-col">
       <h4>${esc(t("foot_sections"))}</h4>
-      <div class="foot-links">${links.map(l => `<a href="${l[0]}">${esc(l[1])}</a>`).join("")}</div>
+      <div class="foot-links">${NAV.map(n => `<a href="${n[0]}">${esc(t(n[1]))}</a>`).join("")}</div>
     </div>
     <div class="foot-col">
       <h4>${esc(t("foot_connect"))}</h4>
@@ -180,36 +165,47 @@ function buildFooter() {
 }
 
 /* ---------- chrome bootstrap ---------- */
-function initChrome() {
+function initChrome(active) {
   const lang = currentLang();
   document.documentElement.lang = lang;
   document.documentElement.setAttribute("dir", I18N[lang].dir);
   document.body.classList.toggle("lang-kn", lang === "kn");
-  buildHeader();
+  buildHeader(active);
   buildTicker();
   buildFooter();
 }
 
-/* =====================================================================
-   LANDING PAGE
-   ===================================================================== */
-function renderLanding() {
-  const b = MSM.brand, lang = currentLang();
-  const app = document.getElementById("app");
-
-  const whoEn = "MSM TV NEWS is the flagship channel of " + L(b.company) + ", a Karnataka-based media company headquartered in Bengaluru. We are building a 24×7 global news platform for television and digital — covering politics, national and international affairs, business, technology, sports, entertainment, culture and health.";
-  const whoKn = "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ಎಂಬುದು ಬೆಂಗಳೂರು ಕೇಂದ್ರಿತ " + L(b.company) + " ಕಂಪನಿಯ ಪ್ರಮುಖ ವಾಹಿನಿ. ರಾಜಕೀಯ, ರಾಷ್ಟ್ರೀಯ ಮತ್ತು ಅಂತಾರಾಷ್ಟ್ರೀಯ ವಿದ್ಯಮಾನ, ವಾಣಿಜ್ಯ, ತಂತ್ರಜ್ಞಾನ, ಕ್ರೀಡೆ, ಮನರಂಜನೆ, ಸಂಸ್ಕೃತಿ ಮತ್ತು ಆರೋಗ್ಯವನ್ನು ಒಳಗೊಂಡ 24×7 ಜಾಗತಿಕ ಸುದ್ದಿ ವೇದಿಕೆಯನ್ನು ನಾವು ರೂಪಿಸುತ್ತಿದ್ದೇವೆ — ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ.";
-
+/* ---------- shared pieces ---------- */
+function inspirationSection() {
+  return `
+  <section class="section section-alt" id="inspiration">
+    <div class="wrap insp-wrap">
+      <div class="insp-photo">
+        <img src="assets/img/inspiration.jpg" alt="${esc(t("insp_name"))}" loading="lazy">
+        <span class="insp-cap">${esc(t("insp_name"))}</span>
+      </div>
+      <div class="insp-text">
+        <span class="sec-kicker">${esc(t("insp_h"))}</span>
+        <h2>${esc(t("insp_name"))}</h2>
+        <p class="insp-role">${esc(t("insp_role"))}</p>
+        <p>${esc(t("insp_body"))}</p>
+        <blockquote class="insp-quote">${esc(t("insp_quote"))}<cite>— ${esc(t("insp_name"))}</cite></blockquote>
+      </div>
+    </div>
+  </section>`;
+}
+function valuesGrid() {
+  const lang = currentLang();
   const values = [
     { en: ["Fair", "Balanced reporting, every side heard."], kn: ["ನ್ಯಾಯ", "ಸಮತೋಲಿತ ವರದಿ, ಎಲ್ಲ ಕಡೆಯ ಧ್ವನಿ."] },
     { en: ["Fast", "Breaking news the moment it happens."], kn: ["ವೇಗ", "ಘಟನೆ ನಡೆದ ಕ್ಷಣವೇ ಸುದ್ದಿ."] },
     { en: ["Fearless", "Journalism without fear or favour."], kn: ["ನಿರ್ಭೀತ", "ಭಯ, ಪಕ್ಷಪಾತವಿಲ್ಲದ ಪತ್ರಿಕೋದ್ಯಮ."] },
     { en: ["Trusted", "Truth, trust and transparency."], kn: ["ವಿಶ್ವಾಸಾರ್ಹ", "ಸತ್ಯ, ವಿಶ್ವಾಸ, ಪಾರದರ್ಶಕತೆ."] }
   ];
-  const why = [
-    ["r_reach", "r_reach_d"], ["r_impact", "r_impact_d"], ["r_trust", "r_trust_d"],
-    ["r_team", "r_team_d"], ["r_cover", "r_cover_d"], ["r_fast", "r_fast_d"]
-  ];
+  return `<div class="values-grid">${values.map(v => { const x = lang === "kn" ? v.kn : v.en; return `<div class="vcard"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`; }).join("")}</div>`;
+}
+function corporateTable() {
+  const b = MSM.brand, lang = currentLang();
   const corp = [
     [lang === "kn" ? "ಕಂಪನಿ" : "Company", L(b.company)],
     ["CIN", b.cin],
@@ -222,12 +218,43 @@ function renderLanding() {
     [lang === "kn" ? "ಪಾವತಿ ಬಂಡವಾಳ" : "Paid-up Capital", b.paidCapital],
     [t("address_label"), L(b.address)]
   ];
-  const checkSvg = '<svg viewBox="0 0 24 24" class="why-ic" aria-hidden="true"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  const advCopyEn = "Reach audiences across television and digital with MSM TV NEWS. From primetime slots and news-break sponsorships to scrolling tickers, L-bands and branded segments, we build campaigns that fit your goals. Tell us about your brand and our team will get back with formats, reach and rate options.";
-  const advCopyKn = "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್‌ನೊಂದಿಗೆ ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ ಪ್ರೇಕ್ಷಕರನ್ನು ತಲುಪಿ. ಪ್ರೈಮ್‌ಟೈಮ್ ಸ್ಲಾಟ್, ನ್ಯೂಸ್-ಬ್ರೇಕ್ ಪ್ರಾಯೋಜಕತ್ವ, ಸ್ಕ್ರೋಲಿಂಗ್ ಟಿಕರ್, ಎಲ್-ಬ್ಯಾಂಡ್ ಮತ್ತು ಬ್ರ್ಯಾಂಡೆಡ್ ವಿಭಾಗಗಳವರೆಗೆ ನಿಮ್ಮ ಗುರಿಗೆ ತಕ್ಕ ಪ್ರಚಾರ ರೂಪಿಸುತ್ತೇವೆ. ನಿಮ್ಮ ಬ್ರ್ಯಾಂಡ್ ಬಗ್ಗೆ ತಿಳಿಸಿ; ನಮ್ಮ ತಂಡ ಫಾರ್ಮ್ಯಾಟ್, ವ್ಯಾಪ್ತಿ ಮತ್ತು ದರಗಳೊಂದಿಗೆ ಸಂಪರ್ಕಿಸುತ್ತದೆ.";
+  return `<table class="corp">${corp.map(r => `<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join("")}</table>`;
+}
+function advertiseForm() {
+  const lang = currentLang();
+  const copyEn = "Reach audiences across television and digital with MSM TV NEWS. From primetime slots and news-break sponsorships to scrolling tickers, L-bands and branded segments, we build campaigns that fit your goals. Tell us about your brand and our team will get back with formats, reach and rate options.";
+  const copyKn = "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್‌ನೊಂದಿಗೆ ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ ಪ್ರೇಕ್ಷಕರನ್ನು ತಲುಪಿ. ಪ್ರೈಮ್‌ಟೈಮ್ ಸ್ಲಾಟ್, ನ್ಯೂಸ್-ಬ್ರೇಕ್ ಪ್ರಾಯೋಜಕತ್ವ, ಸ್ಕ್ರೋಲಿಂಗ್ ಟಿಕರ್, ಎಲ್-ಬ್ಯಾಂಡ್ ಮತ್ತು ಬ್ರ್ಯಾಂಡೆಡ್ ವಿಭಾಗಗಳವರೆಗೆ ನಿಮ್ಮ ಗುರಿಗೆ ತಕ್ಕ ಪ್ರಚಾರ ರೂಪಿಸುತ್ತೇವೆ. ನಿಮ್ಮ ಬ್ರ್ಯಾಂಡ್ ಬಗ್ಗೆ ತಿಳಿಸಿ; ನಮ್ಮ ತಂಡ ಫಾರ್ಮ್ಯಾಟ್, ವ್ಯಾಪ್ತಿ ಮತ್ತು ದರಗಳೊಂದಿಗೆ ಸಂಪರ್ಕಿಸುತ್ತದೆ.";
+  return `
+  <section class="section section-dark" id="advertise">
+    <div class="wrap two-col">
+      <div>
+        <div class="sec-head left light"><h2>${esc(t("advertise_h"))}</h2><p>${esc(t("advertise_sub"))}</p></div>
+        <p class="adv-copy">${esc(lang === "kn" ? copyKn : copyEn)}</p>
+        <div class="adv-reasons">${["r_reach","r_impact","r_trust","r_team","r_cover","r_fast"].map(r => `<span class="adv-pill">${esc(t(r))}</span>`).join("")}</div>
+      </div>
+      <div class="contact-card"><form class="msm-form" id="ad-form"></form></div>
+    </div>
+  </section>`;
+}
+function contactInfoCard() {
+  const b = MSM.brand;
+  return contactItem("✆", t("call_us"), '<a href="tel:' + b.phoneRaw + '">' + esc(b.phone) + '</a>') +
+    contactItem("✉", t("email_us"), '<a href="mailto:' + b.email + '">' + esc(b.email) + '</a>') +
+    contactItem("⌖", t("address_label"), '<span>' + esc(L(b.address)) + '</span>') +
+    contactItem("◷", "24 × 7", '<span>' + esc(t("hours")) + '</span>') +
+    contactItem("♺", t("follow"), socialRow(b));
+}
 
-  app.innerHTML = `
-  <!-- HERO -->
+/* =====================================================================
+   PAGE: LANDING
+   ===================================================================== */
+function renderLanding() {
+  const b = MSM.brand;
+  const stats = [["stat_1n","stat_1l"],["stat_2n","stat_2l"],["stat_3n","stat_3l"],["stat_4n","stat_4l"]];
+  const why = [["r_reach","r_reach_d"],["r_impact","r_impact_d"],["r_trust","r_trust_d"],["r_team","r_team_d"],["r_cover","r_cover_d"],["r_fast","r_fast_d"]];
+  const checkSvg = '<svg viewBox="0 0 24 24" class="why-ic" aria-hidden="true"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  document.getElementById("app").innerHTML = `
   <section class="hero" id="home">
     <div class="hero-glow"></div>
     <div class="wrap hero-inner">
@@ -237,15 +264,23 @@ function renderLanding() {
       <div class="soon-badge"><span class="dot"></span>${esc(t("hero_soon"))}</div>
       <p class="hero-sub">${esc(t("hero_sub"))}</p>
       <div class="hero-cta">
-        <a class="btn-gold" href="#advertise">${esc(t("cta_advertise"))}</a>
-        <a class="btn-ghost" href="https://wa.me/${b.phoneRaw}" target="_blank" rel="noopener">${esc(t("cta_notify"))}</a>
+        <a class="btn-gold" href="index.html#advertise">${esc(t("cta_advertise"))}</a>
+        <a class="btn-ghost" href="contact.html">${esc(t("cta_contact"))}</a>
       </div>
       <div class="hero-values">${esc(L(b.values))}</div>
-      <a class="hero-scroll" href="#coverage">${esc(t("scroll"))} ↓</a>
+      <a class="hero-scroll" href="#stats">${esc(t("scroll"))} ↓</a>
     </div>
   </section>
 
-  <!-- COVERAGE -->
+  <section class="stats" id="stats">
+    <div class="wrap">
+      <h2 class="stats-h">${esc(t("stats_h"))}</h2>
+      <div class="stats-grid">
+        ${stats.map(s => `<div class="stat"><b>${esc(t(s[0]))}</b><span>${esc(t(s[1]))}</span></div>`).join("")}
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="coverage">
     <div class="wrap">
       <div class="sec-head"><span class="sec-kicker">${esc(t("hero_kicker"))}</span><h2>${esc(t("coverage_h"))}</h2><p>${esc(t("coverage_sub"))}</p></div>
@@ -253,73 +288,86 @@ function renderLanding() {
     </div>
   </section>
 
-  <!-- WHY -->
-  <section class="section section-alt" id="why">
+  <section class="section section-alt2" id="why">
     <div class="wrap">
       <div class="sec-head"><h2>${esc(t("why_h"))}</h2><p>${esc(t("why_sub"))}</p></div>
-      <div class="why-grid">
-        ${why.map(w => `<div class="why-card">${checkSvg}<div><b>${esc(t(w[0]))}</b><span>${esc(t(w[1]))}</span></div></div>`).join("")}
-      </div>
+      <div class="why-grid">${why.map(w => `<div class="why-card">${checkSvg}<div><b>${esc(t(w[0]))}</b><span>${esc(t(w[1]))}</span></div></div>`).join("")}</div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section class="section" id="about">
+  ${inspirationSection()}
+
+  ${advertiseForm()}`;
+
+  buildForm("ad-form", t("advertise_h"));
+}
+
+/* =====================================================================
+   PAGE: ABOUT
+   ===================================================================== */
+function renderAbout() {
+  const b = MSM.brand, lang = currentLang();
+  const whoEn = "MSM TV NEWS is the flagship channel of " + L(b.company) + ", a Karnataka-based media company headquartered in Bengaluru. We are building a 24×7 global news platform for television and digital — covering politics, national and international affairs, business, technology, sports, entertainment, culture and health. Rooted locally and looking outward, our newsroom is designed to bring credible, fast and fearless journalism to every screen our audience is on.";
+  const whoKn = "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ಎಂಬುದು ಬೆಂಗಳೂರು ಕೇಂದ್ರಿತ " + L(b.company) + " ಕಂಪನಿಯ ಪ್ರಮುಖ ವಾಹಿನಿ. ರಾಜಕೀಯ, ರಾಷ್ಟ್ರೀಯ ಮತ್ತು ಅಂತಾರಾಷ್ಟ್ರೀಯ ವಿದ್ಯಮಾನ, ವಾಣಿಜ್ಯ, ತಂತ್ರಜ್ಞಾನ, ಕ್ರೀಡೆ, ಮನರಂಜನೆ, ಸಂಸ್ಕೃತಿ ಮತ್ತು ಆರೋಗ್ಯವನ್ನು ಒಳಗೊಂಡ 24×7 ಜಾಗತಿಕ ಸುದ್ದಿ ವೇದಿಕೆಯನ್ನು ನಾವು ರೂಪಿಸುತ್ತಿದ್ದೇವೆ — ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ. ಸ್ಥಳೀಯವಾಗಿ ಬೇರೂರಿ, ಜಗತ್ತಿನತ್ತ ದೃಷ್ಟಿಯಿಟ್ಟು, ವಿಶ್ವಾಸಾರ್ಹ, ವೇಗದ ಮತ್ತು ನಿರ್ಭೀತ ಪತ್ರಿಕೋದ್ಯಮವನ್ನು ಪ್ರತಿ ಪರದೆಗೆ ತಲುಪಿಸುವುದೇ ನಮ್ಮ ಗುರಿ.";
+
+  document.getElementById("app").innerHTML = `
+  <section class="page-hero">
+    <div class="wrap"><h1>${esc(t("about_h"))}</h1><p>${esc(t("about_sub"))}</p></div>
+  </section>
+  <section class="section">
     <div class="wrap about-wrap">
       <div class="about-main">
-        <div class="sec-head left"><h2>${esc(t("about_h"))}</h2></div>
         <h3 class="mini-h">${esc(t("about_who"))}</h3>
         <p class="lead">${esc(lang === "kn" ? whoKn : whoEn)}</p>
         <h3 class="mini-h">${esc(t("about_mission_h"))}</h3>
         <p>${esc(L(b.mission))} — ${esc(L(b.tagline))}.</p>
+        <h3 class="mini-h">${esc(t("about_vision_h"))}</h3>
+        <p>${esc(t("about_vision"))}</p>
+        <h3 class="mini-h">${esc(t("about_promise_h"))}</h3>
+        <p>${esc(t("about_promise"))}</p>
         <h3 class="mini-h">${esc(t("about_values_h"))}</h3>
-        <div class="values-grid">
-          ${values.map(v => { const x = lang === "kn" ? v.kn : v.en; return `<div class="vcard"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`; }).join("")}
-        </div>
-        <h3 class="mini-h">${esc(t("about_offer_h"))}</h3>
-        <div class="chip-list">${I18N[lang].offer.map(o => `<span class="chip">${esc(o)}</span>`).join("")}</div>
+        ${valuesGrid()}
       </div>
       <aside class="about-side">
         <h3 class="mini-h">${esc(t("corporate_h"))}</h3>
-        <table class="corp">${corp.map(r => `<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join("")}</table>
+        ${corporateTable()}
       </aside>
     </div>
   </section>
+  ${inspirationSection()}`;
+}
 
-  <!-- ADVERTISE -->
-  <section class="section section-dark" id="advertise">
+/* =====================================================================
+   PAGE: CONTACT
+   ===================================================================== */
+function renderContact() {
+  const lang = currentLang();
+  const faq = I18N[lang].faq || I18N.en.faq;
+
+  document.getElementById("app").innerHTML = `
+  <section class="page-hero">
+    <div class="wrap"><h1>${esc(t("contact_h"))}</h1><p>${esc(t("contact_page_sub"))}</p></div>
+  </section>
+  <section class="section">
     <div class="wrap two-col">
-      <div>
-        <div class="sec-head left light"><h2>${esc(t("advertise_h"))}</h2><p>${esc(t("advertise_sub"))}</p></div>
-        <p class="adv-copy">${esc(lang === "kn" ? advCopyKn : advCopyEn)}</p>
-        <div class="adv-reasons">
-          ${["r_reach", "r_impact", "r_trust", "r_team", "r_cover", "r_fast"].map(r => `<span class="adv-pill">${esc(t(r))}</span>`).join("")}
-        </div>
-      </div>
+      <div class="contact-card" id="ct-info"></div>
       <div class="contact-card">
-        <form class="msm-form" id="ad-form"></form>
+        <h3 class="mini-h" style="margin-top:0">${esc(t("send_msg_h"))}</h3>
+        <form class="msm-form" id="ct-form"></form>
       </div>
     </div>
   </section>
-
-  <!-- CONTACT -->
-  <section class="section" id="contact">
-    <div class="wrap">
-      <div class="sec-head"><h2>${esc(t("contact_h"))}</h2><p>${esc(t("contact_sub"))}</p></div>
-      <div class="two-col">
-        <div class="contact-card" id="ct-info"></div>
-        <div class="contact-card"><form class="msm-form" id="ct-form"></form></div>
+  <section class="section section-alt2">
+    <div class="wrap faq-wrap">
+      <div class="sec-head"><h2>${esc(t("faq_h"))}</h2></div>
+      <div class="faq-list">
+        ${faq.map(q => `<details class="faq-item"><summary>${esc(q[0])}</summary><p>${esc(q[1])}</p></details>`).join("")}
       </div>
     </div>
-  </section>`;
+  </section>
+  ${advertiseForm()}`;
 
-  // contact info + forms
-  document.getElementById("ct-info").innerHTML =
-    contactItem("✆", t("call_us"), '<a href="tel:' + b.phoneRaw + '">' + esc(b.phone) + '</a>') +
-    contactItem("✉", t("email_us"), '<a href="mailto:' + b.email + '">' + esc(b.email) + '</a>') +
-    contactItem("⌖", t("address_label"), '<span>' + esc(L(b.address)) + '</span>') +
-    contactItem("◷", "24 × 7", '<span>' + esc(t("hours")) + '</span>') +
-    contactItem("♺", t("follow"), socialRow(b));
+  document.getElementById("ct-info").innerHTML = contactInfoCard();
   buildForm("ct-form", t("contact_h"));
   buildForm("ad-form", t("advertise_h"));
 }

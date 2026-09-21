@@ -1,12 +1,11 @@
 /* =====================================================================
    MSM TV NEWS — UI strings (English + Kannada) + language state
-   Launch / landing site.
    ===================================================================== */
 
 const I18N = {
   en: {
     dir: "ltr",
-    // nav (in-page anchors)
+    nav_home: "Home",
     nav_about: "About",
     nav_coverage: "Coverage",
     nav_why: "Why Us",
@@ -22,8 +21,12 @@ const I18N = {
     cta_notify: "Get updates on WhatsApp",
     cta_contact: "Contact the desk",
     scroll: "Discover more",
-    // marquee/promise strip
-    promise_strip: "Fair · Fast · Fearless · Trusted",
+    // stats band
+    stats_h: "Built to inform. Trusted to deliver.",
+    stat_1n: "24×7", stat_1l: "Live coverage",
+    stat_2n: "9+", stat_2l: "News beats",
+    stat_3n: "2", stat_3l: "Screens — TV & digital",
+    stat_4n: "100%", stat_4l: "Truth · Trust · Transparency",
     // coverage
     coverage_h: "What we'll bring you",
     coverage_sub: "From the ground and around the globe — the stories that matter, as they happen.",
@@ -36,12 +39,22 @@ const I18N = {
     r_team: "Professional team", r_team_d: "Experienced journalists and producers.",
     r_cover: "Digital & TV", r_cover_d: "One story, every screen your audience is on.",
     r_fast: "Fast & fearless", r_fast_d: "Breaking news the moment it happens.",
-    // about
+    // our inspiration
+    insp_h: "Our Inspiration",
+    insp_name: "Sir M. Visvesvaraya",
+    insp_role: "Engineer · Statesman · Bharat Ratna (1861–1962)",
+    insp_body: "Our name and our purpose are rooted in the spirit of Sir Mokshagundam Visvesvaraya — the visionary engineer and statesman whose life stood for excellence, integrity and nation-building. A Bharat Ratna and the pride of Karnataka, his relentless pursuit of progress, discipline and truth inspires everything we do at MSM TV NEWS.",
+    insp_quote: "“Industrialise or perish.”",
+    // about page
     about_h: "About MSM TV NEWS",
+    about_sub: "A Karnataka-based, 24×7 global news channel — launching soon on television and digital.",
     about_who: "Who we are",
     about_mission_h: "Our mission",
+    about_vision_h: "Our vision",
+    about_vision: "To be a trusted, independent voice that informs and empowers people across Karnataka and beyond — connecting local stories to the wider world, and the world back to every home.",
+    about_promise_h: "Our promise",
+    about_promise: "We report fairly, move fast and stand fearless. Every story is checked, every side is heard, and every viewer is treated as a partner in the pursuit of truth. That is the promise behind Truth, Trust and Transparency.",
     about_values_h: "What we stand for",
-    about_offer_h: "What we'll cover",
     corporate_h: "Corporate information",
     // advertise
     advertise_h: "Advertise with MSM TV NEWS",
@@ -49,11 +62,21 @@ const I18N = {
     // contact
     contact_h: "Contact & News Desk",
     contact_sub: "Have a story, a tip, or want your news telecast? Reach the MSM TV NEWS desk.",
+    contact_page_sub: "We'd love to hear from you — story tips, news telecast requests, partnerships and advertising enquiries all reach the desk here.",
     call_us: "Call us",
     email_us: "Email us",
     address_label: "Registered office",
     follow: "Follow us",
     hours: "News desk: 24 × 7",
+    send_msg_h: "Send us a message",
+    // FAQ
+    faq_h: "Frequently asked",
+    faq: [
+      ["When is MSM TV NEWS launching?", "We're in final preparations and will announce the launch date across our channels soon. Follow us or drop a message on WhatsApp to be notified first."],
+      ["How can I get my news telecast?", "Send the details to our news desk by phone or email, or use the message form on this page. Our team reviews every request."],
+      ["Do you offer advertising?", "Yes — from primetime slots and sponsorships to tickers and branded segments. Use the advertise form and we'll share formats, reach and rates."],
+      ["Which areas do you cover?", "Politics, national and international affairs, business, technology, sports, entertainment, culture and health — across TV and digital."]
+    ],
     // form
     form_name: "Your name",
     form_phone: "Phone number",
@@ -68,11 +91,11 @@ const I18N = {
     foot_company: "Company",
     foot_connect: "Connect",
     foot_disclaimer: "© %Y% Matru Smruthi Media Pvt. Ltd. All rights reserved.",
-    foot_powered: "Truth · Trust · Transparency",
-    offer: ["Breaking news","National news","International news","Political news","Business news","Entertainment news","Sports news","Health & lifestyle","Exclusive reports"]
+    foot_powered: "Truth · Trust · Transparency"
   },
   kn: {
     dir: "ltr",
+    nav_home: "ಮುಖಪುಟ",
     nav_about: "ನಮ್ಮ ಬಗ್ಗೆ",
     nav_coverage: "ವ್ಯಾಪ್ತಿ",
     nav_why: "ಏಕೆ ನಾವು",
@@ -87,7 +110,11 @@ const I18N = {
     cta_notify: "ವಾಟ್ಸ್‌ಆ್ಯಪ್‌ನಲ್ಲಿ ಅಪ್‌ಡೇಟ್",
     cta_contact: "ಸುದ್ದಿ ಕೇಂದ್ರ ಸಂಪರ್ಕ",
     scroll: "ಇನ್ನಷ್ಟು ನೋಡಿ",
-    promise_strip: "ನ್ಯಾಯ · ವೇಗ · ನಿರ್ಭೀತ · ವಿಶ್ವಾಸಾರ್ಹ",
+    stats_h: "ಮಾಹಿತಿ ನೀಡಲು ರೂಪಿತ. ವಿಶ್ವಾಸದಿಂದ ತಲುಪಿಸಲು ಸಿದ್ಧ.",
+    stat_1n: "24×7", stat_1l: "ಲೈವ್ ಪ್ರಸಾರ",
+    stat_2n: "9+", stat_2l: "ಸುದ್ದಿ ವಿಭಾಗಗಳು",
+    stat_3n: "2", stat_3l: "ಪರದೆಗಳು — ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್",
+    stat_4n: "100%", stat_4l: "ಸತ್ಯ · ವಿಶ್ವಾಸ · ಪಾರದರ್ಶಕತೆ",
     coverage_h: "ನಾವು ನಿಮಗೆ ತರುವುದು",
     coverage_sub: "ನೆಲದಿಂದ ಜಗತ್ತಿನವರೆಗೆ — ಮುಖ್ಯವಾದ ಸುದ್ದಿಗಳು, ನಡೆದಂತೆಯೇ.",
     why_h: "ಏಕೆ ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್",
@@ -98,21 +125,39 @@ const I18N = {
     r_team: "ವೃತ್ತಿಪರ ತಂಡ", r_team_d: "ಅನುಭವಿ ಪತ್ರಕರ್ತರು ಮತ್ತು ನಿರ್ಮಾಪಕರು.",
     r_cover: "ಡಿಜಿಟಲ್ ಮತ್ತು ಟಿವಿ", r_cover_d: "ಒಂದೇ ಸುದ್ದಿ, ಪ್ರತಿ ಪರದೆಯಲ್ಲಿ.",
     r_fast: "ವೇಗ ಮತ್ತು ನಿರ್ಭೀತ", r_fast_d: "ಘಟನೆ ನಡೆದ ಕ್ಷಣವೇ ಬ್ರೇಕಿಂಗ್ ನ್ಯೂಸ್.",
+    insp_h: "ನಮ್ಮ ಸ್ಫೂರ್ತಿ",
+    insp_name: "ಸರ್ ಎಂ. ವಿಶ್ವೇಶ್ವರಯ್ಯ",
+    insp_role: "ಇಂಜಿನಿಯರ್ · ರಾಜನೀತಿಜ್ಞ · ಭಾರತ ರತ್ನ (1861–1962)",
+    insp_body: "ನಮ್ಮ ಹೆಸರು ಮತ್ತು ಗುರಿ ಸರ್ ಮೋಕ್ಷಗುಂಡಂ ವಿಶ್ವೇಶ್ವರಯ್ಯ ಅವರ ಸ್ಫೂರ್ತಿಯಲ್ಲಿ ಬೇರೂರಿದೆ — ಶ್ರೇಷ್ಠತೆ, ಪ್ರಾಮಾಣಿಕತೆ ಮತ್ತು ರಾಷ್ಟ್ರನಿರ್ಮಾಣಕ್ಕೆ ಬದುಕನ್ನೇ ಮುಡಿಪಾಗಿಟ್ಟ ದೂರದೃಷ್ಟಿಯ ಇಂಜಿನಿಯರ್ ಹಾಗೂ ರಾಜನೀತಿಜ್ಞ. ಭಾರತ ರತ್ನ ಮತ್ತು ಕರ್ನಾಟಕದ ಹೆಮ್ಮೆಯಾದ ಅವರ ಪ್ರಗತಿ, ಶಿಸ್ತು ಮತ್ತು ಸತ್ಯದ ಅವಿರತ ಅನ್ವೇಷಣೆಯೇ ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್‌ನ ಪ್ರತಿ ಹೆಜ್ಜೆಗೆ ಸ್ಫೂರ್ತಿ.",
+    insp_quote: "“ಕೈಗಾರಿಕೀಕರಣಗೊಳ್ಳಿ, ಇಲ್ಲವೇ ನಾಶವಾಗಿ.”",
     about_h: "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ಬಗ್ಗೆ",
+    about_sub: "ಕರ್ನಾಟಕ ಮೂಲದ 24×7 ಜಾಗತಿಕ ಸುದ್ದಿ ವಾಹಿನಿ — ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ ಶೀಘ್ರದಲ್ಲೇ ಆರಂಭ.",
     about_who: "ನಾವು ಯಾರು",
     about_mission_h: "ನಮ್ಮ ಧ್ಯೇಯ",
+    about_vision_h: "ನಮ್ಮ ದೃಷ್ಟಿ",
+    about_vision: "ಕರ್ನಾಟಕ ಮತ್ತು ಆಚೆಗಿನ ಜನರಿಗೆ ಮಾಹಿತಿ ನೀಡಿ ಸಬಲಗೊಳಿಸುವ ವಿಶ್ವಾಸಾರ್ಹ, ಸ್ವತಂತ್ರ ಧ್ವನಿಯಾಗುವುದು — ಸ್ಥಳೀಯ ಸುದ್ದಿಗಳನ್ನು ಜಗತ್ತಿಗೆ, ಜಗತ್ತನ್ನು ಪ್ರತಿ ಮನೆಗೆ ಜೋಡಿಸುವುದು.",
+    about_promise_h: "ನಮ್ಮ ವಾಗ್ದಾನ",
+    about_promise: "ನಾವು ನ್ಯಾಯಯುತವಾಗಿ ವರದಿ ಮಾಡುತ್ತೇವೆ, ವೇಗವಾಗಿ ಚಲಿಸುತ್ತೇವೆ ಮತ್ತು ನಿರ್ಭೀತವಾಗಿ ನಿಲ್ಲುತ್ತೇವೆ. ಪ್ರತಿ ಸುದ್ದಿ ಪರಿಶೀಲಿಸಲಾಗುತ್ತದೆ, ಎಲ್ಲ ಕಡೆಯ ಧ್ವನಿ ಆಲಿಸಲಾಗುತ್ತದೆ. ಇದೇ ಸತ್ಯ, ವಿಶ್ವಾಸ ಮತ್ತು ಪಾರದರ್ಶಕತೆಯ ಹಿಂದಿನ ವಾಗ್ದಾನ.",
     about_values_h: "ನಮ್ಮ ಮೌಲ್ಯಗಳು",
-    about_offer_h: "ನಾವು ಒಳಗೊಳ್ಳುವುದು",
     corporate_h: "ಕಂಪನಿ ಮಾಹಿತಿ",
     advertise_h: "ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್‌ನಲ್ಲಿ ಜಾಹೀರಾತು",
     advertise_sub: "ನಮ್ಮ ವೇದಿಕೆ. ನಿಮ್ಮ ಬ್ರ್ಯಾಂಡ್. ವಿಶಾಲ ವ್ಯಾಪ್ತಿ, ಗರಿಷ್ಠ ಪ್ರಭಾವ.",
     contact_h: "ಸಂಪರ್ಕ ಮತ್ತು ಸುದ್ದಿ ಕೇಂದ್ರ",
     contact_sub: "ಸುದ್ದಿ, ಸುಳಿವು ಇದೆಯೇ ಅಥವಾ ನಿಮ್ಮ ಸುದ್ದಿ ಪ್ರಸಾರ ಬೇಕೇ? ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ಕೇಂದ್ರವನ್ನು ಸಂಪರ್ಕಿಸಿ.",
+    contact_page_sub: "ನಿಮ್ಮಿಂದ ಕೇಳಲು ನಾವು ಸಿದ್ಧ — ಸುದ್ದಿ ಸುಳಿವು, ಪ್ರಸಾರ ವಿನಂತಿ, ಪಾಲುದಾರಿಕೆ ಮತ್ತು ಜಾಹೀರಾತು ವಿಚಾರಣೆಗಳು ಇಲ್ಲಿಗೆ ತಲುಪುತ್ತವೆ.",
     call_us: "ಕರೆ ಮಾಡಿ",
     email_us: "ಇಮೇಲ್ ಮಾಡಿ",
     address_label: "ನೋಂದಾಯಿತ ಕಚೇರಿ",
     follow: "ನಮ್ಮನ್ನು ಅನುಸರಿಸಿ",
     hours: "ಸುದ್ದಿ ಕೇಂದ್ರ: 24 × 7",
+    send_msg_h: "ನಮಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ",
+    faq_h: "ಪದೇಪದೇ ಕೇಳುವ ಪ್ರಶ್ನೆಗಳು",
+    faq: [
+      ["ಎಂಎಸ್‌ಎಂ ಟಿವಿ ನ್ಯೂಸ್ ಯಾವಾಗ ಆರಂಭ?", "ನಾವು ಅಂತಿಮ ಸಿದ್ಧತೆಯಲ್ಲಿದ್ದೇವೆ; ಆರಂಭದ ದಿನಾಂಕವನ್ನು ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟಿಸುತ್ತೇವೆ. ಮೊದಲ ಮಾಹಿತಿಗಾಗಿ ನಮ್ಮನ್ನು ಅನುಸರಿಸಿ ಅಥವಾ ವಾಟ್ಸ್‌ಆ್ಯಪ್‌ನಲ್ಲಿ ಸಂದೇಶ ಕಳುಹಿಸಿ."],
+      ["ನನ್ನ ಸುದ್ದಿ ಪ್ರಸಾರ ಹೇಗೆ?", "ವಿವರಗಳನ್ನು ದೂರವಾಣಿ ಅಥವಾ ಇಮೇಲ್ ಮೂಲಕ ನಮ್ಮ ಸುದ್ದಿ ಕೇಂದ್ರಕ್ಕೆ ಕಳುಹಿಸಿ ಅಥವಾ ಈ ಪುಟದ ಫಾರ್ಮ್ ಬಳಸಿ. ಪ್ರತಿ ವಿನಂತಿಯನ್ನೂ ನಮ್ಮ ತಂಡ ಪರಿಶೀಲಿಸುತ್ತದೆ."],
+      ["ನೀವು ಜಾಹೀರಾತು ನೀಡುತ್ತೀರಾ?", "ಹೌದು — ಪ್ರೈಮ್‌ಟೈಮ್ ಸ್ಲಾಟ್, ಪ್ರಾಯೋಜಕತ್ವ, ಟಿಕರ್ ಮತ್ತು ಬ್ರ್ಯಾಂಡೆಡ್ ವಿಭಾಗಗಳವರೆಗೆ. ಜಾಹೀರಾತು ಫಾರ್ಮ್ ಬಳಸಿ; ನಾವು ಫಾರ್ಮ್ಯಾಟ್, ವ್ಯಾಪ್ತಿ ಮತ್ತು ದರ ತಿಳಿಸುತ್ತೇವೆ."],
+      ["ನೀವು ಯಾವ ಕ್ಷೇತ್ರಗಳನ್ನು ಒಳಗೊಳ್ಳುತ್ತೀರಿ?", "ರಾಜಕೀಯ, ರಾಷ್ಟ್ರೀಯ ಮತ್ತು ಅಂತಾರಾಷ್ಟ್ರೀಯ ವಿದ್ಯಮಾನ, ವಾಣಿಜ್ಯ, ತಂತ್ರಜ್ಞಾನ, ಕ್ರೀಡೆ, ಮನರಂಜನೆ, ಸಂಸ್ಕೃತಿ ಮತ್ತು ಆರೋಗ್ಯ — ಟಿವಿ ಮತ್ತು ಡಿಜಿಟಲ್‌ನಲ್ಲಿ."]
+    ],
     form_name: "ನಿಮ್ಮ ಹೆಸರು",
     form_phone: "ದೂರವಾಣಿ ಸಂಖ್ಯೆ",
     form_email: "ಇಮೇಲ್",
@@ -125,8 +170,7 @@ const I18N = {
     foot_company: "ಕಂಪನಿ",
     foot_connect: "ಸಂಪರ್ಕ",
     foot_disclaimer: "© %Y% ಮಾತೃ ಸ್ಮೃತಿ ಮೀಡಿಯಾ ಪ್ರೈ. ಲಿ. ಎಲ್ಲಾ ಹಕ್ಕುಗಳು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.",
-    foot_powered: "ಸತ್ಯ · ವಿಶ್ವಾಸ · ಪಾರದರ್ಶಕತೆ",
-    offer: ["ಬ್ರೇಕಿಂಗ್ ನ್ಯೂಸ್","ರಾಷ್ಟ್ರೀಯ ಸುದ್ದಿ","ಅಂತಾರಾಷ್ಟ್ರೀಯ ಸುದ್ದಿ","ರಾಜಕೀಯ ಸುದ್ದಿ","ವಾಣಿಜ್ಯ ಸುದ್ದಿ","ಮನರಂಜನೆ ಸುದ್ದಿ","ಕ್ರೀಡಾ ಸುದ್ದಿ","ಆರೋಗ್ಯ ಮತ್ತು ಜೀವನಶೈಲಿ","ವಿಶೇಷ ವರದಿಗಳು"]
+    foot_powered: "ಸತ್ಯ · ವಿಶ್ವಾಸ · ಪಾರದರ್ಶಕತೆ"
   }
 };
 
