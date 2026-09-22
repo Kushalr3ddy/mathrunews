@@ -74,7 +74,9 @@ const NAV = [
   ["", "nav_home", "home"],
   ["about/", "nav_about", "about"],
   ["coverage/", "nav_coverage", "coverage"],
+  ["programmes/", "nav_programmes", "programmes"],
   ["advertise/", "nav_advertise", "advertise"],
+  ["careers/", "nav_careers", "careers"],
   ["contact/", "nav_contact", "contact"]
 ];
 function buildHeader(active) {
@@ -141,6 +143,7 @@ function buildFooter() {
       <div class="foot-logo">${msmLogo(46)}<span class="brand-msm">MSM<b>TV</b><i>NEWS</i></span></div>
       <p class="foot-tag">${esc(t("foot_tag"))}</p>
       <p class="foot-mission">${esc(L(b.mission))}</p>
+      <p class="foot-slogan">${esc(L(b.slogan))}</p>
       ${socialRow(b)}
     </div>
     <div class="foot-col">
@@ -150,8 +153,10 @@ function buildFooter() {
     <div class="foot-col">
       <h4>${esc(t("foot_connect"))}</h4>
       <div class="foot-links">
-        <a href="tel:${b.phoneRaw}">${esc(b.phone)}</a>
+        <a href="tel:${b.phoneRaw}">${esc(b.phone)} · ${esc(t("reach_desk"))}</a>
+        <a href="tel:${b.phoneMDRaw}">${esc(b.phoneMD)} · ${esc(t("reach_md"))}</a>
         <a href="mailto:${b.email}">${esc(b.email)}</a>
+        <a href="${b.websiteUrl}" target="_blank" rel="noopener">${esc(b.website)}</a>
         <span class="foot-addr">${esc(L(b.address))}</span>
       </div>
     </div>
@@ -364,7 +369,9 @@ function renderContact() {
             <caption>${esc(t("reach_h"))}</caption>
             <tbody>
               <tr><th scope="row">${esc(t("email_us"))}</th><td><a href="mailto:${b.email}">${esc(b.email)}</a></td></tr>
-              <tr><th scope="row">${esc(t("call_us"))}</th><td><a href="tel:${b.phoneRaw}">${esc(b.phone)}</a></td></tr>
+              <tr><th scope="row">${esc(t("reach_desk"))}</th><td><a href="tel:${b.phoneRaw}">${esc(b.phone)}</a></td></tr>
+              <tr><th scope="row">${esc(t("reach_md"))}</th><td><a href="tel:${b.phoneMDRaw}">${esc(b.phoneMD)}</a></td></tr>
+              <tr><th scope="row">${esc(t("website_label"))}</th><td><a href="${b.websiteUrl}" target="_blank" rel="noopener">${esc(b.website)}</a></td></tr>
             </tbody>
           </table>
           <p class="small">${esc(t("hours_detail"))}</p>
@@ -420,7 +427,6 @@ function renderCoverage() {
    ===================================================================== */
 function renderAdvertise() {
   const lang = currentLang();
-  const formats = I18N[lang].formats || I18N.en.formats;
   const why = [["r_reach", "r_reach_d"], ["r_impact", "r_impact_d"], ["r_trust", "r_trust_d"], ["r_cover", "r_cover_d"]];
   const checkSvg = '<svg viewBox="0 0 24 24" class="why-ic" aria-hidden="true"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
@@ -439,10 +445,18 @@ function renderAdvertise() {
 
   <section class="section section-alt2">
     <div class="wrap">
-      <div class="sec-head"><h2>${esc(t("adv_formats_h"))}</h2></div>
-      <div class="fmt-grid">
-        ${formats.map((f, i) => `<div class="fmt-card"><span class="fmt-num">${String(i + 1).padStart(2, "0")}</span><b>${esc(f[0])}</b><span class="fmt-d">${esc(f[1])}</span></div>`).join("")}
+      <div class="sec-head"><h2>${esc(t("adcats_h"))}</h2></div>
+      <div class="chip-list chip-list-center">${MSM.adCategories.map(c => `<span class="chip">${esc(L(c))}</span>`).join("")}</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head"><h2>${esc(t("adformats_h"))}</h2></div>
+      <div class="fmt-grid fmt-grid-3">
+        ${MSM.adFormats.map(f => `<div class="fmt-card"><b>${esc(L(f))}</b><ul class="fmt-list">${f.items.map(it => `<li>${esc(it)}</li>`).join("")}</ul></div>`).join("")}
       </div>
+      <p class="adv-timing">${esc(t("adpartners_note"))}</p>
       <p class="adv-timing">${esc(t("adv_timing"))}</p>
     </div>
   </section>
@@ -458,4 +472,44 @@ function renderAdvertise() {
   </section>`;
 
   buildForm("ad-form", { subject: t("advertise_h"), withOrg: true });
+}
+
+/* =====================================================================
+   PAGE: PROGRAMMES
+   ===================================================================== */
+function renderProgrammes() {
+  const groups = MSM.programmes.map(g => `
+    <div class="prog-group">
+      <h3>${esc(L(g))}</h3>
+      <ul class="prog-list">${g.items.map(it => `<li>${esc(it)}</li>`).join("")}</ul>
+    </div>`).join("");
+  document.getElementById("app").innerHTML = `
+  <section class="page-hero">${orbs()}
+    <div class="wrap"><span class="sec-kicker">${esc(t("hero_kicker"))}</span><h1>${esc(t("programmes_h"))}</h1><p>${esc(t("programmes_sub"))}</p></div>
+  </section>
+  <section class="section"><div class="wrap"><div class="prog-grid">${groups}</div></div></section>
+  ${ctaBand()}`;
+}
+
+/* =====================================================================
+   PAGE: CAREERS
+   ===================================================================== */
+function renderCareers() {
+  const b = MSM.brand;
+  const items = MSM.departments.map((d, i) => `
+    <details class="dept" ${i === 0 ? "open" : ""}>
+      <summary>${esc(L(d))}<span class="dept-count">${d.roles.length}</span></summary>
+      <ul class="dept-roles">${d.roles.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
+    </details>`).join("");
+  document.getElementById("app").innerHTML = `
+  <section class="page-hero">${orbs()}
+    <div class="wrap"><span class="sec-kicker">${esc(t("nav_careers"))}</span><h1>${esc(t("careers_h"))}</h1><p>${esc(t("careers_sub"))}</p></div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      <div class="dept-list">${items}</div>
+      <p class="apply-note">${esc(t("careers_apply"))} <a href="mailto:${b.email}?subject=${encodeURIComponent("[MSM TV NEWS] Career enquiry")}">${esc(b.email)}</a></p>
+    </div>
+  </section>
+  ${ctaBand()}`;
 }
